@@ -1,6 +1,6 @@
 # My Todo App
 
-seb39_pre_002 프로젝트입니다.
+seb39_main_002 프로젝트입니다.
 
 ## Features
 - 프로젝트 시작
