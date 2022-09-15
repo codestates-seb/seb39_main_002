@@ -9,14 +9,38 @@ function Body() {
         <div>
           <h1>moving</h1>
           <div>
-            <Link to="/1">
-              <button className="askQuestion">Signup</button>
+            <Link to="/signup">
+              <button className="movebutton">Signup</button>
             </Link>
-            <Link to="/2">
-              <button className="askQuestion">2</button>
+            <Link to="/login">
+              <button className="movebutton">Login</button>
             </Link>
-            <Link to="/3">
-              <button className="askQuestion">3</button>
+            <Link to="/find">
+              <button className="movebutton">Find</button>
+            </Link>
+            <Link to="/refrigerator">
+              <button className="movebutton">refrigerator</button>
+            </Link>
+            <Link to="/colder">
+              <button className="movebutton">colder</button>
+            </Link>
+            <Link to="/freezer">
+              <button className="movebutton">freezer</button>
+            </Link>
+            <Link to="/fooddetail">
+              <button className="movebutton">fooddetail</button>
+            </Link>
+            <Link to="/addfood">
+              <button className="movebutton">addfood</button>
+            </Link>
+            <Link to="/mypage">
+              <button className="movebutton">mypage</button>
+            </Link>
+            <Link to="/findrecipe">
+              <button className="movebutton">findrecipe</button>
+            </Link>
+            <Link to="/recommendation">
+              <button className="movebutton">recommendation</button>
             </Link>
           </div>
         </div>
@@ -43,7 +67,7 @@ export const Main = styled.div`
     margin-left: 20px;
   }
 
-  .askQuestion {
+  .movebutton {
     font-size: 13px;
     line-height: 15px;
     text-decoration: none solid rgb(255, 255, 255);
