@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { useState } from "react";
 function Header() {
   const [isLogin, setIsLogin] = useState(false); //로그인 상태 구별 true로 바꿀 경우 기존 헤더
+  function loginHandler() {
+    setIsLogin(!isLogin);
+  }
   return (
     <>
       <Main>
@@ -11,13 +14,22 @@ function Header() {
             <span>
               <Link to="/">Logo</Link>
             </span>
+            {/* <button onClick={loginHandler}>setlogin</button> */}
           </div>
           <div className="header-right">
             <span>
-              <Link to="/mypage">내정보</Link>
+              {isLogin ? (
+                <Link to="/mypage">내정보</Link>
+              ) : (
+                <Link to="/signup">회원가입</Link>
+              )}
             </span>
             <span>
-              <Link to="/">로그아웃</Link>
+              {isLogin ? (
+                <Link to="/">로그아웃</Link>
+              ) : (
+                <Link to="/login">로그인</Link>
+              )}
             </span>
           </div>
         </div>
