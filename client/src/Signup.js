@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 function Signup() {
   const idRegEx = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,11}$/;
@@ -34,7 +33,6 @@ function Signup() {
     const memberPassword = event.target[1].value;
     const memberEmail = event.target[2].value;
     const memberName = event.target[3].value;
-    console.log(memberId, memberPassword, memberEmail, memberName);
     let Error = [];
     if (memberId.match(idRegEx) === null) {
       Error.push(
@@ -57,7 +55,7 @@ function Signup() {
       alert(
         `congratulation!  ${memberId}\nNow you can Log in to stackoverflow`
       );
-      linkToLogin(); // 아래 작업이 되어야 하지만 일단 post가 안되는 상황이라 로그인 이동만 체크
+      // linkToLogin(); // 아래 작업이 되어야 하지만 일단 post가 안되는 상황이라 로그인 이동만 체크
       postForm(memberId, memberPassword, memberEmail, memberName);
     }
   };

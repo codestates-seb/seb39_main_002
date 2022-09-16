@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./Signup";
 import Body from "./Body";
 import Header from "./Header";
+import Login from "./Login";
+import Find from "./Find";
 
 function App() {
   return (
@@ -12,8 +14,8 @@ function App() {
           <Route path="/" element={<Body />} />
           <Route path="/main" element={"login-main"} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={"login"} />
-          <Route path="/find" element={"find id , password"} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/find" element={<Find />} />
           <Route path="/refrigerator" element={"refrigerator"} />
           <Route path="/colder" element={"colder"} />
           <Route path="/freezer" element={"freezer"} />
