@@ -9,9 +9,18 @@ function Colder() {
       method: "get",
       url: "http://localhost:3001/data",
     }).then(function (response) {
-      setData(response.data.colder);
+      setData(response.data);
+      console.log(response.data);
     });
-  }, [data]);
+  }, []);
+  function deleteList(e, place) {
+    setData({
+      freezer: data["freezer"],
+      colder: data[place].filter((el) => el.id !== e),
+      colderLast: data["colderLast"],
+      freezerLast: data["freezerLast"],
+    });
+  }
   return (
     <Main>
       {data !== null ? (
@@ -19,10 +28,16 @@ function Colder() {
           <div className="top">
             <h1>Jay님의 냉장실</h1>
             <div className="lists">
-              {data.map((el) => (
+              {data.colder.map((el) => (
                 <div key={el.id} className="list">
                   <div>{el.name}</div>
-                  <button>x</button>
+                  <button
+                    onClick={() => {
+                      deleteList(el.id, "colder");
+                    }}
+                  >
+                    x
+                  </button>
                 </div>
               ))}
             </div>

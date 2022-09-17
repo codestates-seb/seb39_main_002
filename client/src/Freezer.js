@@ -9,9 +9,17 @@ function Freezer() {
       method: "get",
       url: "http://localhost:3001/data",
     }).then(function (response) {
-      setData(response.data.freezer);
+      setData(response.data);
     });
-  }, [data]);
+  }, []);
+  function deleteList(e, place) {
+    setData({
+      freezer: data[place].filter((el) => el.id !== e),
+      colder: data["colder"],
+      colderLast: data["colderLast"],
+      freezerLast: data["freezerLast"],
+    });
+  }
   return (
     <Main>
       {data !== null ? (
@@ -19,10 +27,16 @@ function Freezer() {
           <div className="top">
             <h1>Jay님의 냉동실</h1>
             <div className="lists">
-              {data.map((el) => (
+              {data.freezer.map((el) => (
                 <div key={el.id} className="list">
                   <div>{el.name}</div>
-                  <button>x</button>
+                  <button
+                    onClick={() => {
+                      deleteList(el.id, "freezer");
+                    }}
+                  >
+                    x
+                  </button>
                 </div>
               ))}
             </div>

@@ -12,7 +12,24 @@ function Refrigerator() {
     }).then(function (response) {
       setData(response.data);
     });
-  }, [data]);
+  }, []);
+  function deleteList(e, place) {
+    if (place === "colder") {
+      setData({
+        freezer: data["freezer"],
+        colder: data[place].filter((el) => el.id !== e),
+        colderLast: data["colderLast"],
+        freezerLast: data["freezerLast"],
+      });
+    } else {
+      setData({
+        freezer: data[place].filter((el) => el.id !== e),
+        colder: data["colder"],
+        colderLast: data["colderLast"],
+        freezerLast: data["freezerLast"],
+      });
+    }
+  }
   return (
     <Main>
       {data !== null ? (
@@ -27,20 +44,33 @@ function Refrigerator() {
               {data.freezer.map((el) => (
                 <div key={el.id} className="list">
                   <div>{el.name}</div>
-                  <button>x</button>
+                  <button
+                    onClick={() => {
+                      deleteList(el.id, "freezer");
+                    }}
+                  >
+                    x
+                  </button>
                 </div>
               ))}
             </div>
           </div>
           <div className="bottom">
             <div>
-              <span>냉장고</span>
+              <span>냉장실</span>
               <Link to="/colder">따로 관리하기→</Link>
             </div>
             <div className="lists">
               {data.colder.map((el) => (
                 <div key={el.id} className="list">
-                  {el.name}
+                  <div>{el.name}</div>
+                  <button
+                    onClick={() => {
+                      deleteList(el.id, "colder");
+                    }}
+                  >
+                    x
+                  </button>
                 </div>
               ))}
             </div>
