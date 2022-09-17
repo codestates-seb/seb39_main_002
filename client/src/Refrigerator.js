@@ -35,44 +35,50 @@ function Refrigerator() {
       {data !== null ? (
         <div className="container">
           <div className="top">
-            <h1>Jay님의 냉장고</h1>
             <div>
+              <h1>Jay님의 냉장고</h1>
+            </div>
+            <div className="texts">
               <span>냉동실</span>
               <Link to="/freezer">따로 관리하기→</Link>
             </div>
-            <div className="lists">
-              {data.freezer.map((el) => (
-                <div key={el.id} className="list">
-                  <div>{el.name}</div>
-                  <button
-                    onClick={() => {
-                      deleteList(el.id, "freezer");
-                    }}
-                  >
-                    x
-                  </button>
-                </div>
-              ))}
+            <div className="listsBox">
+              <div className="lists">
+                {data.freezer.map((el) => (
+                  <div key={el.id} className="list">
+                    <div>{el.name}</div>
+                    <button
+                      onClick={() => {
+                        deleteList(el.id, "freezer");
+                      }}
+                    >
+                      x
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div className="bottom">
-            <div>
+            <div className="texts">
               <span>냉장실</span>
               <Link to="/colder">따로 관리하기→</Link>
             </div>
-            <div className="lists">
-              {data.colder.map((el) => (
-                <div key={el.id} className="list">
-                  <div>{el.name}</div>
-                  <button
-                    onClick={() => {
-                      deleteList(el.id, "colder");
-                    }}
-                  >
-                    x
-                  </button>
-                </div>
-              ))}
+            <div className="listsBox">
+              <div className="lists">
+                {data.colder.map((el) => (
+                  <div key={el.id} className="list">
+                    <div>{el.name}</div>
+                    <button
+                      onClick={() => {
+                        deleteList(el.id, "colder");
+                      }}
+                    >
+                      x
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
             <div>
               <Link to="/recommendation" className="bottomButton">
@@ -96,6 +102,7 @@ export const Main = styled.div`
   h1 {
     color: white;
     margin: 0;
+    padding: 30px 0 0 30px;
   }
   .top {
     height: 46.3vh;
@@ -105,16 +112,23 @@ export const Main = styled.div`
     height: 46.3vh;
     background-color: #4d4a4a;
   }
+  .listsBox {
+    display: flex;
+    justify-content: center;
+  }
   .lists {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 80vw;
   }
   .list {
     color: white;
     background-color: #ff881b;
     width: 150px;
     height: 50px;
-    padding: 5px;
-    margin: 5px;
+    padding: px;
+    margin: 10px;
     border-radius: 10px;
     font-weight: bold;
     font-size: 15px;
@@ -123,7 +137,7 @@ export const Main = styled.div`
     justify-content: center;
     align-items: center;
     button {
-      margin-left: 5px;
+      margin-left: 10px;
       color: white;
       background-color: #ff881b;
       border: white 1px solid;
@@ -131,10 +145,17 @@ export const Main = styled.div`
     }
   }
 
+  .texts {
+    padding: 30px 0 30px 0;
+  }
   span {
     color: #c1c1c1;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 50px;
   }
   a {
+    margin-left: 10px;
     text-decoration: none;
   }
   a:visited {
