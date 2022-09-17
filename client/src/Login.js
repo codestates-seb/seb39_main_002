@@ -96,13 +96,7 @@ function Login() {
             </div>
             <div className="buttons">
               <button className="button-top top-google">
-                <svg
-                  aria-hidden="true"
-                  class="native svg-icon iconGoogle"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                >
+                <svg width="18" height="18" viewBox="0 0 18 18">
                   <path
                     d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18Z"
                     fill="#4285F4"
@@ -132,13 +126,7 @@ function Login() {
                 <span className="marginUp">Sign up with GitHub </span>
               </button>
               <button className="button-top top-facebook">
-                <svg
-                  aria-hidden="true"
-                  class="svg-icon iconFacebook"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                >
+                <svg width="18" height="18" viewBox="0 0 18 18">
                   <path
                     d="M3 1a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3Zm6.55 16v-6.2H7.46V8.4h2.09V6.61c0-2.07 1.26-3.2 3.1-3.2.88 0 1.64.07 1.87.1v2.16h-1.29c-1 0-1.19.48-1.19 1.18V8.4h2.39l-.31 2.42h-2.08V17h-2.5Z"
                     fill="white"

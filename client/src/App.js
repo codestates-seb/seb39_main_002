@@ -27,7 +27,8 @@ function App() {
           <Route path="/refrigerator" element={<Refrigerator />} />
           <Route path="/colder" element={<Colder />} />
           <Route path="/freezer" element={<Freezer />} />
-          <Route path="/fooddetail" element={<Fooddetail />} />
+          <Route path="/fooddetail/:id/colder" element={<Fooddetail />} />
+          <Route path="/fooddetail/:id/freezer" element={<Fooddetail />} />
           <Route path="/addfood" element={<Addfood />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/findrecipe" element={<Findrecipe />} />
