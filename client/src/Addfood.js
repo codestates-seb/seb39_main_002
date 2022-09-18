@@ -151,20 +151,22 @@ function Addfood({ data, setData }) {
         </div>
         <div className="bottomLink">
           <Link
-            // to="/colder"
-            className="bottomButton"
-            value={"colder"}
-            onClick={dataHandlerColder}
-          >
-            냉장실에 추가하기 ╋
-          </Link>
-          <Link
             // to="/freezer"
+            to="/refrigerator"
             className="bottomButton"
             value={"freezer"}
             onClick={dataHandlerFreezer}
           >
             냉동실에 추가하기 ╋
+          </Link>
+          <Link
+            // to="/colder"
+            to="/refrigerator"
+            className="bottomButton"
+            value={"colder"}
+            onClick={dataHandlerColder}
+          >
+            냉장실에 추가하기 ╋
           </Link>
         </div>
       </div>
