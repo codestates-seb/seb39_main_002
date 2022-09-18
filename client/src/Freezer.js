@@ -3,16 +3,19 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-function Freezer() {
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:3001/data",
-    }).then(function (response) {
-      setData(response.data);
-    });
-  }, []);
+function Freezer({ data, setData }) {
+  // const [data, setData] = useState(null);
+  // useEffect(() => {
+  //   axios({
+  //     method: "get",
+  //     url: "http://localhost:3001/data",
+  //   }).then(function (response) {
+  //     setData(response.data);
+  //   });
+  // }, []);
+  // useEffect(() => {
+  //   setData(dataProps);
+  // });
   function deleteList(e, place) {
     setData({
       freezer: data[place].filter((el) => el.id !== e),
@@ -20,6 +23,7 @@ function Freezer() {
       colderLast: data["colderLast"],
       freezerLast: data["freezerLast"],
     });
+    //이후 서버에 delete 한 객체를 PUT으로 올리기(json한정)
   }
   return (
     <Main>
@@ -31,7 +35,7 @@ function Freezer() {
               <div className="lists">
                 {data.freezer.map((el) => (
                   <div key={el.id} className="list">
-                    <div>{el.name}</div>
+                    <Link to={`/fooddetail/${el.id}/freezer`}>{el.name}</Link>
                     <button
                       onClick={() => {
                         deleteList(el.id, "freezer");
@@ -65,6 +69,22 @@ export const Main = styled.div`
     margin: 0;
     padding: 30px 0 0 30px;
   }
+  span {
+    color: #c1c1c1;
+  }
+  a {
+    text-decoration: none;
+  }
+  a:visited {
+    color: #c1c1c1;
+  }
+  .bottomButton {
+    color: #ff881b;
+    background-color: white;
+    a:visited {
+      color: #ff881b;
+    }
+  }
   .listsBox {
     display: flex;
     justify-content: center;
@@ -96,22 +116,8 @@ export const Main = styled.div`
       border: white 1px solid;
       border-radius: 50%;
     }
-  }
-
-  span {
-    color: #c1c1c1;
-  }
-  a {
-    text-decoration: none;
-  }
-  a:visited {
-    color: #c1c1c1;
-  }
-  .bottomButton {
-    color: #ff881b;
-    background-color: white;
-    a:visited {
-      color: #ff881b;
+    a {
+      color: white;
     }
   }
 `;

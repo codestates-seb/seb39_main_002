@@ -3,16 +3,19 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-function Refrigerator() {
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:3001/data",
-    }).then(function (response) {
-      setData(response.data);
-    });
-  }, []);
+function Refrigerator({ data, setData }) {
+  // const [data, setData] = useState(dataProps);
+  // useEffect(() => {
+  //   axios({
+  //     method: "get",
+  //     url: "http://localhost:3001/data",
+  //   }).then(function (response) {
+  //     setData(response.data);
+  //   });
+  // }, []);
+  // useEffect(() => {
+  //   setData(dataProps);
+  // });
   function deleteList(e, place) {
     if (place === "colder") {
       setData({
@@ -29,24 +32,25 @@ function Refrigerator() {
         freezerLast: data["freezerLast"],
       });
     }
+    //이후 서버에 delete 한 객체를 PUT으로 올리기(json한정)
   }
   return (
     <Main>
-      {data !== null ? (
-        <div className="container">
-          <div className="top">
-            <div>
-              <h1>Jay님의 냉장고</h1>
-            </div>
-            <div className="texts">
-              <span>냉동실</span>
-              <Link to="/freezer">따로 관리하기→</Link>
-            </div>
-            <div className="listsBox">
+      <div className="container">
+        <div className="top">
+          <div>
+            <h1>Jay님의 냉장고</h1>
+          </div>
+          <div className="texts">
+            <span>냉동실</span>
+            <Link to="/freezer">따로 관리하기→</Link>
+          </div>
+          <div className="listsBox">
+            {data !== null ? (
               <div className="lists">
                 {data.freezer.map((el) => (
                   <div key={el.id} className="list">
-                    <div>{el.name}</div>
+                    <Link to={`/fooddetail/${el.id}/freezer`}>{el.name}</Link>
                     <button
                       onClick={() => {
                         deleteList(el.id, "freezer");
@@ -57,18 +61,22 @@ function Refrigerator() {
                   </div>
                 ))}
               </div>
-            </div>
+            ) : (
+              ""
+            )}
           </div>
-          <div className="bottom">
-            <div className="texts">
-              <span>냉장실</span>
-              <Link to="/colder">따로 관리하기→</Link>
-            </div>
-            <div className="listsBox">
+        </div>
+        <div className="bottom">
+          <div className="texts">
+            <span>냉장실</span>
+            <Link to="/colder">따로 관리하기→</Link>
+          </div>
+          <div className="listsBox">
+            {data !== null ? (
               <div className="lists">
                 {data.colder.map((el) => (
                   <div key={el.id} className="list">
-                    <div>{el.name}</div>
+                    <Link to={`/fooddetail/${el.id}/colder`}>{el.name}</Link>
                     <button
                       onClick={() => {
                         deleteList(el.id, "colder");
@@ -79,20 +87,20 @@ function Refrigerator() {
                   </div>
                 ))}
               </div>
-            </div>
-            <div>
-              <Link to="/recommendation" className="bottomButton">
-                레시피 추천받기
-              </Link>
-              <Link to="/addfood" className="bottomButton">
-                재료 추가하기 ╋
-              </Link>
-            </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div>
+            <Link to="/recommendation" className="bottomButton">
+              레시피 추천받기
+            </Link>
+            <Link to="/addfood" className="bottomButton">
+              재료 추가하기 ╋
+            </Link>
           </div>
         </div>
-      ) : (
-        ""
-      )}
+      </div>
     </Main>
   );
 }
@@ -111,6 +119,30 @@ export const Main = styled.div`
   .bottom {
     height: 46.3vh;
     background-color: #4d4a4a;
+  }
+
+  .texts {
+    padding: 30px 0 30px 0;
+  }
+  span {
+    color: #c1c1c1;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 50px;
+  }
+  a {
+    margin-left: 10px;
+    text-decoration: none;
+  }
+  a:visited {
+    color: #c1c1c1;
+  }
+  .bottomButton {
+    color: #ff881b;
+    background-color: white;
+    a:visited {
+      color: #ff881b;
+    }
   }
   .listsBox {
     display: flex;
@@ -143,29 +175,8 @@ export const Main = styled.div`
       border: white 1px solid;
       border-radius: 50%;
     }
-  }
-
-  .texts {
-    padding: 30px 0 30px 0;
-  }
-  span {
-    color: #c1c1c1;
-    font-size: 20px;
-    font-weight: bold;
-    margin-left: 50px;
-  }
-  a {
-    margin-left: 10px;
-    text-decoration: none;
-  }
-  a:visited {
-    color: #c1c1c1;
-  }
-  .bottomButton {
-    color: #ff881b;
-    background-color: white;
-    a:visited {
-      color: #ff881b;
+    a {
+      color: white;
     }
   }
 `;
