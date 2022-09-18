@@ -49,13 +49,20 @@ function App() {
           />
           <Route
             path="/fooddetail/:id/colder"
-            element={<Fooddetail place={"colder"} />}
+            element={
+              <Fooddetail place={"colder"} data={data} setData={setData} />
+            }
           />
           <Route
             path="/fooddetail/:id/freezer"
-            element={<Fooddetail place={"freezer"} />}
+            element={
+              <Fooddetail place={"freezer"} data={data} setData={setData} />
+            }
           />
-          <Route path="/addfood" element={<Addfood />} />
+          <Route
+            path="/addfood"
+            element={<Addfood data={data} setData={setData} />}
+          />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/findrecipe" element={<Findrecipe />} />
           <Route path="/recommendation" element={<Recommendation />} />

@@ -1,13 +1,64 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
-function Addfood() {
+function Addfood({ data, setData }) {
+  const [title, setTitle] = useState("");
+  const [tag, setTag] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [date, setDate] = useState("2022-10-30");
+  function titleHandler(e) {
+    setTitle(e.target.value);
+  }
+  function tagHandler(e) {
+    setTag(e.target.textContent);
+  }
+  function quantityHandler(e) {
+    setQuantity(e.target.value);
+  }
+  function dateHandler(e) {
+    setDate(e.target.value);
+  }
+  function dataHandlerFreezer() {
+    let addData = {
+      expirydate: date,
+      id: data["freezerLast"] + 1,
+      name: title,
+      quantity: quantity,
+      type: tag,
+    };
+    setData({
+      freezer: [...data["freezer"], addData],
+      colder: data["colder"],
+      colderLast: data["colderLast"],
+      freezerLast: data["freezerLast"] + 1,
+    });
+  }
+  function dataHandlerColder() {
+    let addData = {
+      expirydate: date,
+      id: data["colderLast"] + 1,
+      name: title,
+      quantity: quantity,
+      type: tag,
+    };
+    setData({
+      freezer: data["freezer"],
+      colder: [...data["colder"], addData],
+      colderLast: data["colderLast"] + 1,
+      freezerLast: data["freezerLast"],
+    });
+  }
   return (
     <Main>
       <div className="container">
         <div>
           <div className="title">
-            <input placeholder="재료를 입력해주세요" />
+            <input
+              placeholder="재료를 입력해주세요"
+              value={title}
+              onChange={titleHandler}
+            />
             <h1> </h1>
           </div>
         </div>
@@ -16,26 +67,82 @@ function Addfood() {
             <h2>분류</h2>
           </div>
           <div className="tagBox">
-            <div className="tag">육류</div>
-            <div className="tag">해산물</div>
-            <div className="tag">채소/야채</div>
-            <div className="tag">과일</div>
-            <div className="tag">유제품</div>
-            <div className="tag">음료</div>
-            <div className="tag">가공품</div>
-            <div className="tag">완제품</div>
-            <div className="tag">조미료/양념</div>
-            <div className="tag">기타</div>
+            <div
+              className={"tag" + " " + (tag === "육류" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              육류
+            </div>
+            <div
+              className={"tag" + " " + (tag === "해산물" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              해산물
+            </div>
+            <div
+              className={"tag" + " " + (tag === "채소/야채" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              채소/야채
+            </div>
+            <div
+              className={"tag" + " " + (tag === "과일" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              과일
+            </div>
+            <div
+              className={"tag" + " " + (tag === "유제품" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              유제품
+            </div>
+            <div
+              className={"tag" + " " + (tag === "음료" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              음료
+            </div>
+            <div
+              className={"tag" + " " + (tag === "가공품" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              가공품
+            </div>
+            <div
+              className={"tag" + " " + (tag === "완제품" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              완제품
+            </div>
+            <div
+              className={"tag" + " " + (tag === "조미료/양념" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              조미료/양념
+            </div>
+            <div
+              className={"tag" + " " + (tag === "기타" ? "tagNow" : "")}
+              onClick={tagHandler}
+            >
+              기타
+            </div>
           </div>
         </div>
         <div className="datas">
           <div className="data">
             <h2>수량</h2>
-            <input></input>
+            <input value={quantity} onChange={quantityHandler}></input>
           </div>
           <div className="data">
             <h2>유통기한</h2>
-            <input></input>
+            <input
+              type="date"
+              min="2022-09-19"
+              max="2030-12-31"
+              value={date}
+              onChange={dateHandler}
+            ></input>
           </div>
           {/* <div className="data">
             <h2>소비기한</h2>
@@ -43,10 +150,20 @@ function Addfood() {
           </div> */}
         </div>
         <div className="bottomLink">
-          <Link to="/colder" className="bottomButton">
+          <Link
+            // to="/colder"
+            className="bottomButton"
+            value={"colder"}
+            onClick={dataHandlerColder}
+          >
             냉장실에 추가하기 ╋
           </Link>
-          <Link to="/freezer" className="bottomButton">
+          <Link
+            // to="/freezer"
+            className="bottomButton"
+            value={"freezer"}
+            onClick={dataHandlerFreezer}
+          >
             냉동실에 추가하기 ╋
           </Link>
         </div>
@@ -125,6 +242,9 @@ export const Main = styled.div`
     border-radius: 30px;
     text-align: center;
     line-height: 40px;
+  }
+  .tagNow {
+    background-color: white;
   }
   .datas {
     justify-content: center;

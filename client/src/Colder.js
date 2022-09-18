@@ -1,22 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 function Colder({ data, setData }) {
-  // const [data, setData] = useState(null);
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: "http://localhost:3001/data",
-  //   }).then(function (response) {
-  //     setData(response.data);
-  //     console.log(response.data);
-  //   });
-  // }, []);
-  // useEffect(() => {
-  //   setData(dataProps);
-  // });
   function deleteList(e, place) {
     setData({
       freezer: data["freezer"],

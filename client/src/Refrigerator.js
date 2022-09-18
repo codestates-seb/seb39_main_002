@@ -1,21 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function Refrigerator({ data, setData }) {
-  // const [data, setData] = useState(dataProps);
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: "http://localhost:3001/data",
-  //   }).then(function (response) {
-  //     setData(response.data);
-  //   });
-  // }, []);
-  // useEffect(() => {
-  //   setData(dataProps);
-  // });
   function deleteList(e, place) {
     if (place === "colder") {
       setData({
