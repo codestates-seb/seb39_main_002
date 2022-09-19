@@ -272,6 +272,14 @@ export const Main = styled.div`
   }
   .bottomLink {
     a {
+      color: #ffa249;
+      background-color: #ffeddc;
+      text-decoration: none;
+      padding: 5px;
+      margin: 5px;
+    }
+    a:visited {
+      color: #ffa249;
     }
   }
 `;
