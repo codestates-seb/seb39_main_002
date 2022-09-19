@@ -157,7 +157,7 @@ function Addfood({ data, setData }) {
             value={"freezer"}
             onClick={dataHandlerFreezer}
           >
-            냉동실에 추가하기 ╋
+            <div>냉동실에 추가하기 ╋</div>
           </Link>
           <Link
             // to="/colder"
@@ -166,7 +166,7 @@ function Addfood({ data, setData }) {
             value={"colder"}
             onClick={dataHandlerColder}
           >
-            냉장실에 추가하기 ╋
+            <div>냉장실에 추가하기 ╋</div>
           </Link>
         </div>
       </div>
@@ -271,15 +271,28 @@ export const Main = styled.div`
     }
   }
   .bottomLink {
+    display: flex;
     a {
-      color: #ffa249;
-      background-color: #ffeddc;
       text-decoration: none;
-      padding: 5px;
-      margin: 5px;
     }
     a:visited {
       color: #ffa249;
+    }
+  }
+  .bottomButton {
+    div {
+      width: 200px;
+      height: 50px;
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ff881b;
+      background-color: #f2f2f2;
+      padding: 5px;
+      margin: 50px 15px 0 15px;
+      border-radius: 10px;
     }
   }
 `;

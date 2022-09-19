@@ -189,7 +189,11 @@ function Fooddetail({ place, data, setData }) {
             className="bottomButton"
             onClick={dataMoveHander}
           >
-            {place === "colder" ? "냉동실로 옮기기" : "냉장실로 옮기기"}
+            {place === "colder" ? (
+              <div>냉동실로 옮기기</div>
+            ) : (
+              <div>냉장실로 옮기기</div>
+            )}
           </Link>
           <Link
             // to={`/${place}`} 이건 고려해야할 것 같다(다 볼 수 없으니)
@@ -197,7 +201,8 @@ function Fooddetail({ place, data, setData }) {
             className="bottomButton"
             onClick={dataHandler}
           >
-            수정하기
+            {" "}
+            <div>수정하기</div>
           </Link>
         </div>
       </div>
@@ -302,15 +307,28 @@ export const Main = styled.div`
     }
   }
   .bottomLink {
+    display: flex;
     a {
-      color: #ffa249;
-      background-color: #ffeddc;
       text-decoration: none;
-      padding: 5px;
-      margin: 5px;
     }
     a:visited {
       color: #ffa249;
+    }
+  }
+  .bottomButton {
+    div {
+      width: 170px;
+      height: 50px;
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ff881b;
+      background-color: #ffffff;
+      padding: 5px;
+      margin: 50px 15px 0 15px;
+      border-radius: 10px;
     }
   }
 `;
