@@ -12,8 +12,8 @@ function Login() {
   function checkHandler() {
     setisChecked(!isChecked);
   }
-  function linkToLogin() {
-    window.location.href = `http://localhost:3000/login`;
+  function linkToMain() {
+    window.location.href = `http://localhost:3000/main`;
   }
   function postForm(username, password) {
     axios
@@ -24,11 +24,11 @@ function Login() {
       .then(function (response) {
         console.log(response);
         if (response.status === 201) {
-          linkToLogin();
+          linkToMain();
         }
       })
       .catch(function (error) {
-        // linkToLogin(); //에러로 인해 이동 되는지 테스트 하는 용도
+        // linkToMain(); //에러로 인해 이동 되는지 테스트 하는 용도
         console.log(error);
       });
   }
