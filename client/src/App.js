@@ -15,6 +15,8 @@ import Addfood from "./Addfood";
 import Mypage from "./Mypage";
 import Findrecipe from "./Findrecipe";
 import Recommendation from "./Recommendation";
+import Main from "./Main";
+import Empty from "./components/Empty";
 function App() {
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -30,8 +32,10 @@ function App() {
       <Header />
       <div>
         <Routes>
+          <Route path="/empty" element={<Empty />} />         
           <Route path="/" element={<Body />} />
-          <Route path="/main" element={<Loginmain />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/loginmain" element={<Loginmain />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/find" element={<Find />} />
