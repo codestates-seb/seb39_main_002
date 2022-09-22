@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
-
+import myImg from "./img/AdobeStock_113803790.jpeg";
 function Mypage() {
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
   function modifyProfile(nickname, memberEmail, memberPassword) {
@@ -51,7 +51,12 @@ function Mypage() {
       <div className="container">
         <div className="text">내 정보 관리하기</div>
         <div className="boxes">
-          <div className="box box1">왼쪽에 이미지 넣어주기</div>
+          <div className="box box1">
+            <div className="imgBox">
+              <img src={process.env.PUBLIC_URL + `/logo192.png`}></img>
+            </div>
+            <h1>{"Jay"}</h1>
+          </div>
           <form className="box box2" onSubmit={handleSubmit}>
             <div className="inputBox">
               <div className="inputDiv">
@@ -106,6 +111,18 @@ export const Main = styled.div`
   }
   .box1 {
     width: 15vw;
+    .imgBox {
+      display: flex;
+      justify-content: center;
+    }
+    img {
+      width: 150px;
+    }
+    h1 {
+      display: flex;
+      justify-content: center;
+      margin: 0;
+    }
   }
   .box2 {
     width: 50vw;

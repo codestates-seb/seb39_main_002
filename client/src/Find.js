@@ -13,11 +13,13 @@ function Find() {
       //유저 이름과 이메일이 일치하는 ID가 있는 경우
       //ID 를 이메일로 보내주기
       alert(`유저 이름 : ${nickname}\n이메일 : ${leftEmail}`);
+      //프론트에서 아이디 출력
     } else if (e.target.value === "Password") {
       //ID와 이메일이 일치하는 ID가 있는 경우
       //Password를 랜덤으로 변경한 다음
       //서버(DB?)로 바뀐 Password를 수정하고 이메일로 보내주기
       alert(`ID : ${id}\n이메일 : ${rightEmail}`);
+      //비밀번호@
     }
   }
   function nicknameHandler(e) {
