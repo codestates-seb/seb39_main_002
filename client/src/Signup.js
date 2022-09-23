@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import axios from "axios";
 function Signup() {
   const idRegEx = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,11}$/;
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
@@ -7,24 +7,42 @@ function Signup() {
   function linkToLogin() {
     window.location.href = `http://localhost:3000/login`;
   }
-  function postForm(username, password, email, nickname) {
-    fetch("http://15.164.53.160:8080/v1/members/join", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
+  function postForm(id, password, email, nickname) {
+    axios
+      .post("http://15.164.53.160:8080/v1/members/join", {
+        id,
         password,
         email,
         nickname,
-      }),
-    }).then((res) => {
-      if (res.status === 201) {
-        linkToLogin();
-      }
-    });
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 201) {
+          linkToLogin();
+        }
+      })
+      .catch(function (error) {
+        // linkToLogin(); //에러로 인해 이동 되는지 테스트 하는 용도
+        console.log(error);
+      });
+
+    // fetch("http://15.164.53.160:8080/v1/members/join", {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     username,
+    //     password,
+    //     email,
+    //     nickname,
+    //   }),
+    // }).then((res) => {
+    //   if (res.status === 201) {
+    //     linkToLogin();
+    //   }
+    // });
   }
 
   const handleSubmit = (event) => {
@@ -53,7 +71,7 @@ function Signup() {
     }
     if (!Error.length) {
       alert(
-        `congratulation!  ${memberId}\nNow you can Log in to stackoverflow`
+        `congratulation!  ${memberName}\nNow you can Log in to Refrigerator`
       );
       // linkToLogin(); // 아래 작업이 되어야 하지만 일단 post가 안되는 상황이라 로그인 이동만 체크
       postForm(memberId, memberPassword, memberEmail, memberName);
