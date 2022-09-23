@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 // import { Link } from "react-router-dom";
 
 function Login() {
@@ -11,26 +12,25 @@ function Login() {
   function checkHandler() {
     setisChecked(!isChecked);
   }
-  function linkToLogin() {
-    window.location.href = `http://localhost:3000/login`;
+  function linkToMain() {
+    window.location.href = `http://localhost:3000/main`;
   }
-  function postForm(username, password) {
-    fetch("http://15.164.53.160:8080/v1/members/join", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
+  function postForm(id, password) {
+    axios
+      .post("http://15.164.53.160:8080/v1/members/join", {
+        id,
         password,
-        keeplogin: isChecked,
-      }),
-    }).then((res) => {
-      if (res.status === 201) {
-        linkToLogin();
-      }
-    });
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 201) {
+          linkToMain();
+        }
+      })
+      .catch(function (error) {
+        // linkToMain(); //에러로 인해 이동 되는지 테스트 하는 용도
+        console.log(error);
+      });
   }
 
   const handleSubmit = (event) => {
@@ -52,9 +52,6 @@ function Login() {
       alert(Error.join("\n\n"));
     }
     if (!Error.length) {
-      alert(
-        `congratulation!  ${memberId}\nNow you can Log in to stackoverflow`
-      );
       //   linkToLogin(); // 아래 작업이 되어야 하지만 일단 post가 안되는 상황이라 로그인 이동만 체크
       postForm(memberId, memberPassword);
     }
