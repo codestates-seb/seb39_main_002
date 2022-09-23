@@ -7,10 +7,10 @@ function Signup() {
   function linkToLogin() {
     window.location.href = `http://localhost:3000/login`;
   }
-  function postForm(username, password, email, nickname) {
+  function postForm(id, password, email, nickname) {
     axios
       .post("http://15.164.53.160:8080/v1/members/join", {
-        username,
+        id,
         password,
         email,
         nickname,

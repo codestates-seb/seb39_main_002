@@ -15,10 +15,10 @@ function Login() {
   function linkToMain() {
     window.location.href = `http://localhost:3000/main`;
   }
-  function postForm(username, password) {
+  function postForm(id, password) {
     axios
       .post("http://15.164.53.160:8080/v1/members/join", {
-        username,
+        id,
         password,
       })
       .then(function (response) {

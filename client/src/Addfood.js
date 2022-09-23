@@ -49,16 +49,22 @@ function Addfood({ data, setData }) {
       freezerLast: data["freezerLast"],
     });
   }
+  function goBack() {
+    window.history.back();
+  }
   return (
-    <Main>
-      <div className="container">
+    <Main onClick={goBack}>
+      <div className="container" onClick={(event) => event.stopPropagation()}>
         <div>
           <div className="title">
-            <input
-              placeholder="재료를 입력해주세요"
-              value={title}
-              onChange={titleHandler}
-            />
+            <div className="titleButton">
+              <input
+                placeholder="재료를 입력해주세요"
+                value={title}
+                onChange={titleHandler}
+              />
+              <button onClick={goBack}>x</button>
+            </div>
             <h1> </h1>
           </div>
         </div>
@@ -220,6 +226,21 @@ export const Main = styled.div`
       width: 200px;
       border-bottom: 3px solid white;
       margin: 30px auto;
+    }
+  }
+  .titleButton {
+    display: flex;
+    justify-content: space-between;
+    button {
+      color: white;
+      background-color: #ffa249;
+      border: white 1px solid;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 25px;
+      font-weight: bold;
+      margin-top: 50px;
     }
   }
   .tagText {
