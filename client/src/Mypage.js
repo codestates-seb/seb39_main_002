@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import axios from "axios";
-import myImg from "./img/AdobeStock_113803790.jpeg";
 function Mypage() {
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
   function modifyProfile(nickname, memberEmail, memberPassword) {
