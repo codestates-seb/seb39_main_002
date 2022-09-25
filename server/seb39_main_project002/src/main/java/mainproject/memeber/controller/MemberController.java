@@ -32,6 +32,7 @@ public class MemberController {
     @PostMapping    //회원 등록
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
         Member member = mapper.memberPostToMember(requestBody);
+
         Member createdMember = memberService.createMember(member);
         MemberDto.Response response = mapper.memberToMemberResponse(createdMember);
         return new ResponseEntity<>(
@@ -44,7 +45,7 @@ public class MemberController {
 
     @PatchMapping("/{member-id}") //회원정보 수정
     public ResponseEntity patchMember(
-            @PathVariable("member-id") @Positive String memberId,
+            @PathVariable("member-id") @Positive long memberId,
             @Valid @RequestBody MemberDto.Patch requestBody) {
         requestBody.setMemberId(memberId);
 
@@ -60,7 +61,7 @@ public class MemberController {
 
     @GetMapping("/{member-id}") //회원정보 조회
     public ResponseEntity getMember(
-            @PathVariable("member-id") @Positive String memberId) {
+            @PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.memberToMemberResponse(member))
@@ -71,7 +72,7 @@ public class MemberController {
 
     @DeleteMapping("/{member-id}") //회원 삭제
     public ResponseEntity deleteMember(
-            @PathVariable("member-id") @Positive String memberId) {
+            @PathVariable("member-id") @Positive long memberId) {
         memberService.deleteMember(memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

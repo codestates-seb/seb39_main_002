@@ -26,9 +26,13 @@ server:
     encoding:
       force-response: true
 
-#jwt:
-#  secret-key: ${JWT_SECRET_KEY}           # ??? ??? ??? ?? ???? ????.
-#  access-token-expiration-minutes: 30
-#  refresh-token-expiration-minutes: 420
+mail:
+  address:
+    admin: admin@gmail.com
+
+jwt:
+  secret-key: #${JWT_SECRET_KEY}           # ??? ??? ??? ?? ???? ????.
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
 
 #mysql로 바꾸기 테이블 등록하기

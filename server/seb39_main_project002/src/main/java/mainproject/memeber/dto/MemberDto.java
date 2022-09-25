@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern;
         @AllArgsConstructor // TODO 테스트를 위해 추가됨
         public static class Post {
 
-
+            private String id;
             @NotBlank
             @Email
             private String email;
@@ -28,7 +28,9 @@ import javax.validation.constraints.Pattern;
         @Getter
         @AllArgsConstructor
         public static class Patch {
-            private String memberId;
+            private long memberId;
+
+            private String id;
 
             @NotSpace(message = "회원 이름은 공백이 아니어야 합니다")
             private String name;
@@ -37,7 +39,7 @@ import javax.validation.constraints.Pattern;
             private String password;
 
 
-            public void setMemberId(String  memberId) {
+            public void setMemberId(long  memberId) {
                 this.memberId = memberId;
             }
         }
@@ -45,10 +47,11 @@ import javax.validation.constraints.Pattern;
         @AllArgsConstructor
         @Getter
         public static class Response {
-            private String memberId;
+            private long memberId;
+            private String id;
             private String email;
             private String name;
-            private String password;
+//            private String password;
 
         }
     }

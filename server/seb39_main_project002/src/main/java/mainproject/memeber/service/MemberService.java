@@ -1,14 +1,13 @@
 package mainproject.memeber.service;
 
+import mainproject.auth.utils.CustomAuthorityUtils;
 import mainproject.exception.BusinessLogicException;
 import mainproject.exception.ExceptionCode;
 import mainproject.memeber.entity.Member;
 import mainproject.memeber.repository.MemberRepository;
-import mainproject.util.CustomAuthorityUtils;
+
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -22,16 +21,38 @@ import java.util.Optional;
 @Service
 public class MemberService {
 
+
         private final MemberRepository memberRepository;
-//        private final ApplicationEventPublisher publisher;
+        private final ApplicationEventPublisher publisher;
 
-        public MemberService(MemberRepository memberRepository) {
-            this.memberRepository = memberRepository;
+      // (1) 추가
+        private final PasswordEncoder passwordEncoder;
+        private final CustomAuthorityUtils authorityUtils;
 
-        }
+      // (2) 생성자 DI용 파라미터 추가
+      public MemberService(MemberRepository memberRepository,
+                           PasswordEncoder passwordEncoder,
+                           ApplicationEventPublisher publisher,
+                           CustomAuthorityUtils authorityUtils) {
+          this.memberRepository = memberRepository;
+          this.passwordEncoder = passwordEncoder;
+          this.publisher = publisher;
+          this.authorityUtils = authorityUtils;
+      }
 
+
+//        @Transactional(readOnly = true)
         public Member createMember(Member member) {
             verifyExistsEmail(member.getEmail());
+
+            // (3) 추가: Password 암호화
+            String encryptedPassword = passwordEncoder.encode(member.getPassword());
+            member.setPassword(encryptedPassword);
+
+            // (4) 추가: DB에 User Role 저장
+            List<String> roles = authorityUtils.createRoles(member.getEmail());
+            member.setRoles(roles);
+
             Member savedMember = memberRepository.save(member);
             return savedMember;
         }
@@ -48,23 +69,18 @@ public class MemberService {
 
 
         @Transactional(readOnly = true)
-        public Member findMember(String memberId) {
+        public Member findMember(long memberId) {
             return findVerifiedMember(memberId);
         }
 
-        public Page<Member> findMembers(int page, int size) {
-            return memberRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("memberId").descending()));
-        }
-
-        public void deleteMember(String memberId) {
+        public void deleteMember(long memberId) {
             Member findMember = findVerifiedMember(memberId);
 
             memberRepository.delete(findMember);
         }
 
         @Transactional(readOnly = true)
-        public Member findVerifiedMember(String memberId) {
+        public Member findVerifiedMember(long memberId) {
             Optional<Member> optionalMember =
                     memberRepository.findById(memberId);
             Member findMember =
@@ -79,55 +95,3 @@ public class MemberService {
                 throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
         }
     }
-
-//    private final MemberRepository memberRepository;
-//    private final ApplicationEventPublisher publisher;
-//
-//    // (1) 추가
-//    private final PasswordEncoder passwordEncoder;
-//    private final CustomAuthorityUtils authorityUtils;
-//
-//    // (2) 생성자 DI용 파라미터 추가
-//    public MemberService(MemberRepository memberRepository,
-//                         ApplicationEventPublisher publisher,
-//                         PasswordEncoder passwordEncoder,
-//                         CustomAuthorityUtils authorityUtils) {
-//        this.memberRepository = memberRepository;
-//        this.publisher = publisher;
-//        this.passwordEncoder = passwordEncoder;
-//        this.authorityUtils = authorityUtils;
-//    }
-//
-//    public Member createMember(Member member) {
-//        verifyExistsEmail(member.getEmail());
-//
-//        // (3) 추가: Password 암호화
-//        String encryptedPassword = passwordEncoder.encode(member.getPassword());
-//        member.setPassword(encryptedPassword);
-//
-//        // (4) 추가: DB에 User Role 저장
-//        List<String> roles = authorityUtils.createRoles(member.getEmail());
-//        member.setRoles(roles);
-//
-//        Member savedMember = memberRepository.save(member);
-//
-//        publisher.publishEvent(new MemberRegistrationApplicationEvent(this, savedMember));
-//        return savedMember;
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public Member findVerifiedMember(long memberId) {
-//        Optional<Member> optionalMember =
-//                memberRepository.findById(memberId);
-//        Member findMember =
-//                optionalMember.orElseThrow(() ->
-//                        new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-//        return findMember;
-//    }
-//
-//
-//    private void verifyExistsEmail(String email) {
-//        Optional<Member> member = memberRepository.findByEmail(email);
-//        if (member.isPresent())
-//            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
-//    }
