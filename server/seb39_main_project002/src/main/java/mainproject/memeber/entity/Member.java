@@ -19,13 +19,13 @@ public class Member extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
 
-    @Column(nullable = false, updatable = false, unique = true)
-    private String id;
-    @Column(nullable = false, updatable = false, unique = true)
+//    @Column(nullable = false, updatable = false, unique = true) //오류 뜸 - 나중에 해결해보기
+//    private String id;
+    @Column(nullable = false, updatable = false, unique = true) //중복 불가능 - 로그인 아이디임
     private String email;
 
     @Column
-    private String name;
+    private String nickname; //중복 가능
 
     // (1) 추가
     @Column(length = 100, nullable = false)
@@ -38,9 +38,9 @@ public class Member extends Auditable {
     public Member(String email) {
         this.email = email;
     }
-    public Member(String email, String name, String password) {
+    public Member(String email, String nickname, String password) {
         this.email = email;
-        this.name = name;
+        this.nickname = nickname;
         this.password = password;
     }
 }

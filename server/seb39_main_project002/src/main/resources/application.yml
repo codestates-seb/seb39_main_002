@@ -21,6 +21,7 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
+
 server:
   servlet:
     encoding:
