@@ -7,6 +7,7 @@ function Signup() {
   function linkToLogin() {
     window.location.href = `http://localhost:3000/login`;
   }
+
   function postForm(id, password, email, nickname) {
     axios
       .post("http://15.164.53.160:8080/v1/members/join", {
@@ -25,24 +26,6 @@ function Signup() {
         // linkToLogin(); //에러로 인해 이동 되는지 테스트 하는 용도
         console.log(error);
       });
-
-    // fetch("http://15.164.53.160:8080/v1/members/join", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     username,
-    //     password,
-    //     email,
-    //     nickname,
-    //   }),
-    // }).then((res) => {
-    //   if (res.status === 201) {
-    //     linkToLogin();
-    //   }
-    // });
   }
 
   const handleSubmit = (event) => {
