@@ -58,12 +58,13 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/*/members").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER")
-                        .anyRequest().permitAll()
+//                        .antMatchers(HttpMethod.POST, "/*/members").permitAll()
+//                        .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
+//                        .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")
+//                        .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")
+//                        .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER")
+                        .anyRequest()
+                .permitAll()
                 );
         return http.build();
     }
@@ -78,7 +79,8 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
-//        configuration.setAllowedHeaders(List.of(CorsConfiguration.ALL)); //추가 - cors 오류 다시 체크하기
+        configuration.setAllowedHeaders(List.of(CorsConfiguration.ALL)); //추가 - cors 오류 다시 체크하기
+//        configuration.addAllowedHeader("Authorization"); //cors 오류로 인해 추가
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

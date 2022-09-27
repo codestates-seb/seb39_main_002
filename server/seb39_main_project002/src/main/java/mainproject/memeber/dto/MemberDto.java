@@ -19,9 +19,9 @@ import javax.validation.constraints.Pattern;
             @Email
             private String email;
 
-            @NotBlank(message = "이름은 공백이 아니어야 합니다.")
+            @NotBlank(message = "닉네임은 공백이 아니어야 합니다.")
             private String nickname;
-
+            @NotSpace(message = "비밀번호는 공백이 아니어야 합니다")
             private String password;
         }
 
@@ -32,11 +32,11 @@ import javax.validation.constraints.Pattern;
 
 //            private String id;
 
-            @NotSpace(message = "회원 이름은 공백이 아니어야 합니다")
+            @NotSpace(message = "닉네임은 공백이 아니어야 합니다")
             private String nickname;
 
-            @NotSpace(message = "비밀번호는 공백이 아니어야 합니다")
-            private String password;
+//            @NotSpace(message = "비밀번호는 공백이 아니어야 합니다")
+//            private String password;
 
 
             public void setMemberId(long  memberId) {

@@ -63,7 +63,7 @@ public class MemberService {
             Member findMember = findVerifiedMember(member.getMemberId());
 
             Optional.ofNullable(member.getNickname())
-                    .ifPresent(ninkname -> findMember.setNickname(ninkname));
+                    .ifPresent(nickname -> findMember.setNickname(nickname));
             return memberRepository.save(findMember);
         }
 
