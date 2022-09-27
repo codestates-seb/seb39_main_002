@@ -30,10 +30,12 @@ public class JwtTokenizer {
     @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
 
-    public String encodeBase64SecretKey(String secretKey) {
+    public String encodeBase64SecretKey(String secretKey) { //Plain Text 형태인 Secret Key의 byte[]를 Base64 형식의 문자열로 인코딩
+        // Plain Text 자체를 Secret Key로 사용하는 것을 권장하지 않고 있음
         return Encoders.BASE64.encode(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
+    //최초 토큰 발급
     public String generateAccessToken(Map<String, Object> claims,
                                       String subject,
                                       Date expiration,
@@ -81,6 +83,8 @@ public class JwtTokenizer {
                 .parseClaimsJws(jws);
     }
 
+
+    //토큰만료 시간 지정 메서드
     public Date getTokenExpiration(int expirationMinutes) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, expirationMinutes);

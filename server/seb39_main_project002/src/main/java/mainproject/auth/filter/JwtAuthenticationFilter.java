@@ -19,9 +19,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+//U.P 상속 - Username/Password 기반의 인증을 처리하기 위해
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
+
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer) {
         this.authenticationManager = authenticationManager;
@@ -31,15 +33,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
-        UsernamePasswordAuthenticationToken authenticationToken =
+        ObjectMapper objectMapper = new ObjectMapper(); //역직렬화를 위한 인스턴스 생성
+        LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class); //역직렬화
+        UsernamePasswordAuthenticationToken authenticationToken = //민감정보 담긴 토큰 생성
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 
-        return authenticationManager.authenticate(authenticationToken);
+        return authenticationManager.authenticate(authenticationToken); //인증 매니저에 전달하면서 인증 처리 위임
     }
 
-    @Override
+    @Override //성공 시
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,

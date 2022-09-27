@@ -29,7 +29,7 @@ public class MemberController {
     }
 
 
-    @PostMapping   //회원 등록
+    @PostMapping("/join")    //회원 등록
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
         Member member = mapper.memberPostToMember(requestBody);
 
@@ -40,7 +40,7 @@ public class MemberController {
                 HttpStatus.CREATED);
     }
 
-//    @PostMapping("/login") //로그인 자동..시큐리티가 해줌
+//    @PostMapping("/login") //로그인 추가하기
 
 
     @PatchMapping("/{member-id}") //회원정보 수정

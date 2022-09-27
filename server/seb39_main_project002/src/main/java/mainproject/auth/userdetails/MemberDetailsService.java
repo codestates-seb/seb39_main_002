@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.Optional;
 
-@Component //@Service 대신에 빈으로 등록
+@Component
 public class MemberDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final CustomAuthorityUtils authorityUtils;

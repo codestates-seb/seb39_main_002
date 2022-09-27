@@ -58,13 +58,12 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-//                        .antMatchers(HttpMethod.POST, "/*/members").permitAll()
-//                        .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")
-//                        .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")
-//                        .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER")
-                        .anyRequest()
-                .permitAll()
+                        .antMatchers(HttpMethod.POST, "/*/members/**").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER")
+                        .anyRequest().permitAll()
                 );
         return http.build();
     }
@@ -79,14 +78,15 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
-        configuration.setAllowedHeaders(List.of(CorsConfiguration.ALL)); //추가 - cors 오류 다시 체크하기
+        configuration.setAllowedHeaders(List.of(CorsConfiguration.ALL)); //cors 오류로 인해 추가
+        configuration.addExposedHeader("Authorization");//클라이언트에 헤더 보여주기
 //        configuration.addAllowedHeader("Authorization"); //cors 오류로 인해 추가
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
-
+    //Jwt 인증필터 등록
     public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
