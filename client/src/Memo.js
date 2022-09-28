@@ -84,10 +84,12 @@ export const Main = styled.span`
     box-shadow: 0 8px 32px 0 rgba(30, 30, 30, 1);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    width: 800px;
-    height: 600px;
+    width: 80vw;
+    max-width: 900px;
+    height: 60vh;
+    max-height: 600px;
     position: relative;
-    top: -100px;
+    top: -50px;
     padding: 10px;
 
     display: flex;

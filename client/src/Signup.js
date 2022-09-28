@@ -10,14 +10,17 @@ function Signup() {
 
   function postForm(id, password, email, nickname) {
     axios
-      .post("http://15.164.53.160:8080/v1/members/join", {
-        id,
-        password,
-        email,
-        nickname,
-      })
+      // .post("http://15.164.53.160:8080/v1/members/join", {
+      .post(
+        "http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/join",
+        {
+          id,
+          password,
+          email,
+          nickname,
+        }
+      )
       .then(function (response) {
-        console.log(response);
         if (response.status === 201) {
           linkToLogin();
         }
@@ -30,14 +33,14 @@ function Signup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const memberId = event.target[0].value;
+    const id = event.target[0].value;
     const memberPassword = event.target[1].value;
     const memberEmail = event.target[2].value;
     const memberName = event.target[3].value;
     let Error = [];
-    if (memberId.match(idRegEx) === null) {
+    if (id.match(idRegEx) === null) {
       Error.push(
-        `Wrong ID : ${memberId}\nID should Start with caracter and 4~12 length`
+        `Wrong ID : ${id}\nID should Start with caracter and 4~12 length`
       );
     }
     if (memberPassword.match(passwordRegEx) === null) {
@@ -57,7 +60,7 @@ function Signup() {
         `congratulation!  ${memberName}\nNow you can Log in to Refrigerator`
       );
       // linkToLogin(); // 아래 작업이 되어야 하지만 일단 post가 안되는 상황이라 로그인 이동만 체크
-      postForm(memberId, memberPassword, memberEmail, memberName);
+      postForm(id, memberPassword, memberEmail, memberName);
     }
   };
 

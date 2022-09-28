@@ -228,6 +228,7 @@ export const Main = styled.div`
     align-items: center;
     height: 75vh;
     width: 40vw;
+    min-width: 720px;
     background-color: #ffa249;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -237,6 +238,7 @@ export const Main = styled.div`
   }
   .title {
     width: 32vw;
+    min-width: 570px;
     input {
       width: 250px;
       height: 40px;
@@ -287,6 +289,8 @@ export const Main = styled.div`
   }
   .tagBox {
     width: 28vw;
+    min-width: 500px;
+    max-width: 570px;
     display: flex;
     flex-wrap: wrap;
   }
@@ -308,6 +312,7 @@ export const Main = styled.div`
   .datas {
     justify-content: center;
     width: 28vw;
+    min-width: 500px;
     /* display: flex;
   flex-direction: column; */
   }

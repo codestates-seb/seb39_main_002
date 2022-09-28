@@ -19,14 +19,18 @@ function Login() {
 
   function postForm(username, password) {
     axios
-      .post("http://15.164.53.160:8080/v1/members/login", {
-        username,
-        password,
-      })
+      // .post("http://15.164.53.160:8080/v1/members/login", {
+      .post(
+        "http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/login",
+        {
+          username,
+          password,
+        }
+      )
       .then(function (response) {
-        console.log(response);
+        console.log(response.headers.authorization);
         if (response.status === 200) {
-          linkToMain();
+          // linkToMain();
         }
       })
       .catch(function (error) {
@@ -37,8 +41,8 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // const memberId = event.target[0].value;
-    const email = event.target[0].value;
+    const memberId = event.target[0].value;
+    // const email = event.target[0].value;
     const memberPassword = event.target[1].value;
     let Error = [];
     // if (memberId.match(idRegEx) === null) {
@@ -56,7 +60,7 @@ function Login() {
     }
     if (!Error.length) {
       //   linkToLogin(); // 아래 작업이 되어야 하지만 일단 post가 안되는 상황이라 로그인 이동만 체크
-      postForm(email, memberPassword);
+      postForm(memberId, memberPassword);
     }
   };
 
@@ -68,7 +72,7 @@ function Login() {
             <div className="form" onSubmit={handleSubmit}>
               <form>
                 <div>
-                  <label className="input-text">ID</label>
+                  <label className="input-text">Email</label>
                   <div>
                     <input type="text" id="display-name" name="display-name" />
                   </div>

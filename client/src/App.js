@@ -24,8 +24,10 @@ function App() {
     axios({
       method: "get",
       url: "http://localhost:3001/data",
+      // url: "ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080",
     }).then(function (response) {
       setData(response.data);
+      console.log(response.data);
     });
   }, []);
   return (
@@ -33,8 +35,8 @@ function App() {
       <Header />
       <div>
         <Routes>
-          <Route path="/recipedetail" element={<Recipedetail />} /> 
-          <Route path="/empty" element={<Empty />} />         
+          <Route path="/recipedetail" element={<Recipedetail />} />
+          <Route path="/empty" element={<Empty />} />
           <Route path="/" element={<Body />} />
           <Route path="/main" element={<Main />} />
           <Route path="/loginmain" element={<Loginmain />} />
