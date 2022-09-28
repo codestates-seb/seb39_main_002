@@ -4,6 +4,7 @@ import lombok.Data;
 import mainproject.audit.Auditable;
 import mainproject.food.enumType.FoodClassification;
 import mainproject.food.enumType.Refrigerator;
+import mainproject.memeber.entity.Member;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -24,8 +25,8 @@ public class Food extends Auditable {
     private String foodName; // 식자재 이름
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private FoodClassification foodClassification; // 식자재 분류 enum 타입으로 수정
+//    @Enumerated(EnumType.STRING)
+    private String foodClassification; // 식자재 분류 enum 타입으로 수정
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -36,8 +37,16 @@ public class Food extends Auditable {
     @Temporal(TemporalType.DATE)
     private Date shelfLife; //유통기한
 
+    @ManyToOne   //
+//    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 
-//    private String username;
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+
+//    private String email;
 
 //    @OneToOne
 //    @JoinColumn(name = "code")

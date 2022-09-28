@@ -5,6 +5,9 @@ import mainproject.exception.ExceptionCode;
 import mainproject.food.entity.Food;
 
 import mainproject.food.repositiry.FoodRepository;
+import mainproject.memeber.entity.Member;
+import mainproject.memeber.repository.MemberRepository;
+import mainproject.memeber.service.MemberService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,15 +18,22 @@ import java.util.Optional;
 public class FoodService {
 
     private final FoodRepository foodRepository;
+//    private final MemberRepository memberRepository;
+
+    private final MemberService memberService;
 
 
-    public FoodService(FoodRepository foodRepository) {
+    public FoodService(FoodRepository foodRepository, MemberService memberService) {
         this.foodRepository = foodRepository;
+//        this.memberRepository = memberRepository;
+        this.memberService = memberService;
 
     }
 
     // ToDo 등록
     public Food createFood(Food food) {
+
+//        memberRepository.findByEmail(email);
 
         food.setCreatedAt(LocalDateTime.now());
 

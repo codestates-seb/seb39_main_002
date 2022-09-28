@@ -1,12 +1,18 @@
 package mainproject.food.controller;
 
+import mainproject.auth.userdetails.MemberDetailsService;
 import mainproject.food.dto.FoodDto;
 import mainproject.food.entity.Food;
 import mainproject.food.mapper.FoodMapper;
 import mainproject.food.service.FoodService;
 import mainproject.dto.SingleResponseDto;
+import mainproject.memeber.entity.Member;
+import mainproject.memeber.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,16 +26,19 @@ import java.util.List;
 public class FoodController {
 
     private final FoodService foodService;
-
     private final FoodMapper foodMapper;
 
-    public FoodController(FoodService foodService, FoodMapper foodMapper) {
+    private final MemberService memberService;
+
+    public FoodController(FoodService foodService, FoodMapper foodMapper, MemberService memberService) {
         this.foodService = foodService;
         this.foodMapper = foodMapper;
+        this.memberService = memberService;
     }
 
+
     @PostMapping
-    public ResponseEntity postFood(@Valid @RequestBody FoodDto foodDto) {
+    public ResponseEntity postFood(@Valid @AuthenticationPrincipal MemberDetailsService memberDetailsService , @RequestBody FoodDto foodDto) {
 
         Food food = foodService.createFood(foodMapper.foodPostDtoToFood(foodDto));
 

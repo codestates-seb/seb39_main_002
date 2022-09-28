@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mainproject.audit.Auditable;
+import mainproject.food.entity.Food;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -35,6 +36,13 @@ public class Member extends Auditable {
     // (2) 추가 user, admin
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Food> foods = new ArrayList<>();
+
+    public void addFood(Food food){
+        foods.add(food);
+    }
 
     public Member(String email) {
         this.email = email;
