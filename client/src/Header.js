@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
-function Header() {
-  const [isLogin, setIsLogin] = useState(true); //로그인 상태 구별 true로 바꿀 경우 기존 헤더
-  function loginHandler() {
-    setIsLogin(!isLogin);
-  }
+import Memo from "./Memo";
+function Header({ isLogin, loginHandler }) {
   return (
     <>
       <Main>
@@ -14,10 +11,10 @@ function Header() {
             <span>
               <Link to="/">Logo</Link>
             </span>
-            {/* <button onClick={loginHandler}>setlogin</button> */}
+            <button onClick={loginHandler}>setlogin</button>
           </div>
           <div className="header-right">
-            <span>{isLogin ? <Link>메모</Link> : ""}</span>
+            <span className="modal">{isLogin ? <Memo /> : ""}</span>
             <span>
               {isLogin ? (
                 <Link to="/mypage">내정보</Link>
@@ -27,7 +24,9 @@ function Header() {
             </span>
             <span>
               {isLogin ? (
-                <Link to="/">로그아웃</Link>
+                <Link to="/" onClick={loginHandler}>
+                  로그아웃
+                </Link>
               ) : (
                 <Link to="/login">로그인</Link>
               )}
@@ -47,7 +46,7 @@ export const Main = styled.div`
   align-items: center;
   height: 70px;
   .header-container {
-    width: 100%;
+    width: 100vw;
     padding: 0 30px 0 30px;
     justify-content: space-between;
     display: flex;

@@ -12,18 +12,24 @@ function Login() {
   function checkHandler() {
     setisChecked(!isChecked);
   }
+
   function linkToMain() {
-    window.location.href = `http://localhost:3000/main`;
+    window.location.href = `http://localhost:3000/loginmain`;
   }
-  function postForm(id, password) {
+
+  function postForm(username, password) {
     axios
-      .post("http://15.164.53.160:8080/v1/members/join", {
-        id,
-        password,
-      })
+      // .post("http://15.164.53.160:8080/v1/members/login", {
+      .post(
+        "http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/login",
+        {
+          username,
+          password,
+        }
+      )
       .then(function (response) {
-        console.log(response);
-        if (response.status === 201) {
+        // console.log(response.headers.authorization);
+        if (response.status === 200) {
           linkToMain();
         }
       })
@@ -36,13 +42,14 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const memberId = event.target[0].value;
+    // const email = event.target[0].value;
     const memberPassword = event.target[1].value;
     let Error = [];
-    if (memberId.match(idRegEx) === null) {
-      Error.push(
-        `Wrong ID : ${memberId}\nID should Start with caracter and 4~12 length`
-      );
-    }
+    // if (memberId.match(idRegEx) === null) {
+    //   Error.push(
+    //     `Wrong ID : ${memberId}\nID should Start with caracter and 4~12 length`
+    //   );
+    // }
     if (memberPassword.match(passwordRegEx) === null) {
       Error.push(
         `Wrong password\npassword should have 1 caracter and 1 number and 1 special caracter with 8~16 length`
@@ -65,7 +72,7 @@ function Login() {
             <div className="form" onSubmit={handleSubmit}>
               <form>
                 <div>
-                  <label className="input-text">ID</label>
+                  <label className="input-text">Email</label>
                   <div>
                     <input type="text" id="display-name" name="display-name" />
                   </div>

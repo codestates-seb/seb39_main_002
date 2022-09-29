@@ -16,26 +16,35 @@ import Mypage from "./Mypage";
 import Findrecipe from "./Findrecipe";
 import Recommendation from "./Recommendation";
 import Main from "./Main";
+import MainSum from "./MainSum";
 import Empty from "./components/Empty";
 import Recipedetail from "./Recipedetail";
+
 function App() {
   const [data, setData] = useState(null);
+  const [isLogin, setIsLogin] = useState(true);
   useEffect(() => {
     axios({
       method: "get",
       url: "http://localhost:3001/data",
+      // url: "ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080",
     }).then(function (response) {
       setData(response.data);
+      console.log(response.data);
     });
   }, []);
+  function loginHandler() {
+    setIsLogin(!isLogin);
+  }
   return (
     <BrowserRouter>
-      <Header />
+      <Header isLogin={isLogin} loginHandler={loginHandler} />
       <div>
         <Routes>
-          <Route path="/recipedetail" element={<Recipedetail />} /> 
-          <Route path="/empty" element={<Empty />} />         
-          <Route path="/" element={<Body />} />
+          <Route path="/" element={<MainSum isLogin={isLogin} />} />
+          <Route path="/dev" element={<Body />} />
+          <Route path="/recipedetail" element={<Recipedetail />} />
+          <Route path="/empty" element={<Empty />} />
           <Route path="/main" element={<Main />} />
           <Route path="/loginmain" element={<Loginmain />} />
           <Route path="/signup" element={<Signup />} />
