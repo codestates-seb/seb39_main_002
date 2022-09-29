@@ -16,10 +16,12 @@ import Mypage from "./Mypage";
 import Findrecipe from "./Findrecipe";
 import Recommendation from "./Recommendation";
 import Main from "./Main";
+import MainSum from "./MainSum";
 import Empty from "./components/Empty";
 import Recipedetail from "./Recipedetail";
 function App() {
   const [data, setData] = useState(null);
+  const [isLogin, setIsLogin] = useState(true);
   useEffect(() => {
     axios({
       method: "get",
@@ -30,14 +32,18 @@ function App() {
       console.log(response.data);
     });
   }, []);
+  function loginHandler() {
+    setIsLogin(!isLogin);
+  }
   return (
     <BrowserRouter>
-      <Header />
+      <Header isLogin={isLogin} loginHandler={loginHandler} />
       <div>
         <Routes>
+          <Route path="/" element={<MainSum isLogin={isLogin} />} />
+          <Route path="/dev" element={<Body />} />
           <Route path="/recipedetail" element={<Recipedetail />} />
           <Route path="/empty" element={<Empty />} />
-          <Route path="/" element={<Body />} />
           <Route path="/main" element={<Main />} />
           <Route path="/loginmain" element={<Loginmain />} />
           <Route path="/signup" element={<Signup />} />

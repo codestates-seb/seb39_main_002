@@ -2,11 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import Memo from "./Memo";
-function Header() {
-  const [isLogin, setIsLogin] = useState(true); //로그인 상태 구별 true로 바꿀 경우 기존 헤더
-  function loginHandler() {
-    setIsLogin(!isLogin);
-  }
+function Header({ isLogin, loginHandler }) {
   return (
     <>
       <Main>
