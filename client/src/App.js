@@ -18,6 +18,7 @@ import Recommendation from "./Recommendation";
 import Main from "./Main";
 import Empty from "./components/Empty";
 import Recipedetail from "./Recipedetail";
+
 function App() {
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -32,7 +33,7 @@ function App() {
     <BrowserRouter>
       <Header />
       <div>
-        <Routes>
+        <Routes>          
           <Route path="/recipedetail" element={<Recipedetail />} /> 
           <Route path="/empty" element={<Empty />} />         
           <Route path="/" element={<Body />} />
