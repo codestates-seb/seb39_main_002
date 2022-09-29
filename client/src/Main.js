@@ -40,14 +40,14 @@ const Div = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: 200vh;
   margin: 0;
   padding: 0;
   overflow: hidden;
 
   .background1 {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-position: center;
     background-size: cover;
@@ -58,7 +58,7 @@ const Div = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-position: center;
     background-size: cover;
@@ -68,7 +68,7 @@ const Div = styled.div`
   .blackbox {
     display: flex;
     flex-direction: column-reverse;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.3);
   }

@@ -53,7 +53,7 @@ const Loginmain = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  width: 100%;
   height: 200vh;
   margin: 0;
   padding: 0;
@@ -64,7 +64,7 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
   }
   .text4 {
@@ -85,12 +85,19 @@ const Container = styled.div`
   .icon {
     padding-left: 1rem;
   }
+
+  a {
+    text-decoration: none;
+  }
+  a:visited {
+    color: black;
+  }
 `;
 
 const Div = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 
   .background23 {

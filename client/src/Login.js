@@ -28,9 +28,9 @@ function Login() {
         }
       )
       .then(function (response) {
-        console.log(response.headers.authorization);
+        // console.log(response.headers.authorization);
         if (response.status === 200) {
-          // linkToMain();
+          linkToMain();
         }
       })
       .catch(function (error) {

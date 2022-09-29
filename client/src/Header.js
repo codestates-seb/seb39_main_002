@@ -11,7 +11,7 @@ function Header({ isLogin, loginHandler }) {
             <span>
               <Link to="/">Logo</Link>
             </span>
-            {/* <button onClick={loginHandler}>setlogin</button> */}
+            <button onClick={loginHandler}>setlogin</button>
           </div>
           <div className="header-right">
             <span className="modal">{isLogin ? <Memo /> : ""}</span>
@@ -24,7 +24,9 @@ function Header({ isLogin, loginHandler }) {
             </span>
             <span>
               {isLogin ? (
-                <Link to="/">로그아웃</Link>
+                <Link to="/" onClick={loginHandler}>
+                  로그아웃
+                </Link>
               ) : (
                 <Link to="/login">로그인</Link>
               )}
@@ -44,7 +46,7 @@ export const Main = styled.div`
   align-items: center;
   height: 70px;
   .header-container {
-    width: 100%;
+    width: 100vw;
     padding: 0 30px 0 30px;
     justify-content: space-between;
     display: flex;
