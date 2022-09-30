@@ -17,7 +17,7 @@ function Memo( { isLogin, setIsLogin } ) {
   
   
   useEffect(() => {
-    if(1){
+    if(isLogin){
       axios({
         method: "get",
         url: "http://localhost:3003/memo",

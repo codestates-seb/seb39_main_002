@@ -2,27 +2,23 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import freezer from "./img/냉동실.jpeg";
-import colder from "./img/냉장실.jpeg"
+import colder from "./img/냉장실.jpeg";
 import { AiOutlinePlus } from "react-icons/ai";
 
-function Refrigerator({ data, setData }) {
-  function deleteList(e, place) {
-    if (place === "colder") {
-      setData({
-        freezer: data["freezer"],
-        colder: data[place].filter((el) => el.id !== e),
-        colderLast: data["colderLast"],
-        freezerLast: data["freezerLast"],
-      });
-    } else {
-      setData({
-        freezer: data[place].filter((el) => el.id !== e),
-        colder: data["colder"],
-        colderLast: data["colderLast"],
-        freezerLast: data["freezerLast"],
-      });
-    }
-    //이후 서버에 delete 한 객체를 PUT으로 올리기(json한정)
+function Refrigerator({ data, setData, tokenEmail }) {
+  function deleteList(id) {
+    axios({
+      method: "delete",
+      // url: "http://localhost:3001/data",
+      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+      headers: {
+        Authorization: tokenEmail.token,
+      },
+    }).then(function (response) {
+      if (response.status === 204) {
+        setData(data.filter((el) => el.id !== id));
+      }
+    });
   }
   return (
     <Main>
@@ -30,7 +26,11 @@ function Refrigerator({ data, setData }) {
         <div className="top">
           <div className="blackbox1">
             <div>
-              <h1>Jay님의 냉장고</h1>
+              <h1>
+                {tokenEmail.nickname === ""
+                  ? "Jay님의 냉장고"
+                  : `${tokenEmail.nickname}님의 냉장고`}
+              </h1>
             </div>
             <div className="texts">
               <span>냉동실</span>
@@ -39,22 +39,24 @@ function Refrigerator({ data, setData }) {
             <div className="listsBox">
               {data !== null ? (
                 <div className="lists">
-                  {data.freezer.map((el) => (
-                    <div key={el.id} className="list">
-                      <Link to={`/fooddetail/${el.id}/freezer`}>{el.name}</Link>
-                      <button
-                        onClick={() => {
-                          deleteList(el.id, "freezer");
-                        }}
+                  {data
+                    .filter((el) => el.refrigerator === "FREEZER")
+                    .map((el) => (
+                      <div key={el.id} className="list">
+                        <Link to={`/fooddetail/${el.id}`}>{el.foodName}</Link>
+                        <button
+                          onClick={() => {
+                            deleteList(el.id);
+                          }}
                         >
-                        x
-                      </button>
-                    </div>
-                  ))}
+                          x
+                        </button>
+                      </div>
+                    ))}
                 </div>
               ) : (
                 ""
-                )}
+              )}
             </div>
           </div>
         </div>
@@ -67,31 +69,33 @@ function Refrigerator({ data, setData }) {
             <div className="listsBox">
               {data !== null ? (
                 <div className="lists">
-                  {data.colder.map((el) => (
-                    <div key={el.id} className="list">
-                      <Link to={`/fooddetail/${el.id}/colder`}>{el.name}</Link>
-                      <button
-                        onClick={() => {
-                          deleteList(el.id, "colder");
-                        }}
-                      >
-                        x
-                      </button>
-                    </div>
-                  ))}
+                  {data
+                    .filter((el) => el.refrigerator === "COLD_STORAGE")
+                    .map((el) => (
+                      <div key={el.id} className="list">
+                        <Link to={`/fooddetail/${el.id}`}>{el.foodName}</Link>
+                        <button
+                          onClick={() => {
+                            deleteList(el.id, "colder");
+                          }}
+                        >
+                          x
+                        </button>
+                      </div>
+                    ))}
                 </div>
               ) : (
                 ""
               )}
             </div>
             <div className="buttoncontainer">
-              <Link to="/recommendation" >
+              <Link to="/recommendation">
                 <div className="bottomButton">레시피 추천받기</div>
               </Link>
               <Link to="/addfood">
                 <div className="bottomButton">
                   <p>재료 추가하기</p>
-                  <AiOutlinePlus size="20" className="plusicon"/>
+                  <AiOutlinePlus size="20" className="plusicon" />
                 </div>
               </Link>
             </div>
@@ -114,22 +118,25 @@ export const Main = styled.div`
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(${freezer});  
+    background-image: url(${freezer});
   }
   .bottom {
     height: 46.3vh;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(${colder}); 
+    background-image: url(${colder});
   }
   .blackbox1 {
-    height: 46.3vh;  
+    height: 46.3vh;
     background-color: rgba(0, 0, 0, 0.6);
   }
   .blackbox2 {
-    height: 46.3vh;  
+    height: 46.3vh;
     background-color: rgba(0, 0, 0, 0.4);
+    display : flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .texts {
     padding: 30px 0 30px 0;
@@ -148,25 +155,25 @@ export const Main = styled.div`
     color: #c1c1c1;
   }
   .buttoncontainer {
-    display: flex;    
-    align-items: center;
-    justify-content: center;    
+    display: flex;   
+    justify-content : center;    
+    margin-bottom  : 0.7rem;
   }
   .bottomButton {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    color:#FF881B;   
+    color: #ff881b;
     font-weight: bold;
     width: 10rem;
     height: 2.5rem;
-    border-radius: 0.5rem;   
+    border-radius: 0.5rem;
     text-align: center;
     align-items: center;
     background-color: white;    
   }
-  .plusicon{
+  .plusicon {
     padding-left: 0.5rem;
   }
   .listsBox {
