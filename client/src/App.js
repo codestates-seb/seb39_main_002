@@ -30,32 +30,69 @@ function App() {
   });
   const [changed, setChanged] = useState(false);
   useEffect(() => {
-    axios({
-      method: "get",
-      // url: "http://localhost:3001/data",
-      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
-      headers: {
-        Authorization: tokenEmail.token,
-      },
-    }).then(function (response) {
-      setData(response.data.data);
-    });
-    axios({
-      method: "get",
-      // url: "http://localhost:3001/data",
-      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/${tokenEmail.email}`,
-      headers: {
-        Authorization: tokenEmail.token,
-      },
-    }).then(function (response) {
-      setTokenEmail({
-        token: tokenEmail.token,
-        email: response.data.data.email,
-        nickname: response.data.data.nickname,
+    if (localStorage.getItem("localToken")) {
+      setIsLogin(true);
+      axios({
+        method: "get",
+        // url: "http://localhost:3001/data",
+        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/${localStorage.getItem(
+          "email"
+        )}`,
+        headers: {
+          Authorization: localStorage.getItem("localToken"),
+        },
+      }).then(function (response) {
+        setTokenEmail({
+          token: localStorage.getItem("localToken"),
+          email: response.data.data.email,
+          nickname: response.data.data.nickname,
+        });
       });
-    });
-  }, [changed, isLogin]);
+      axios({
+        method: "get",
+        // url: "http://localhost:3001/data",
+        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${localStorage.getItem(
+          "email"
+        )}`,
+        headers: {
+          Authorization: localStorage.getItem("localToken"),
+        },
+      }).then(function (response) {
+        setData(response.data.data);
+      });
+    }
+    // else {
+    //   axios({
+    //     method: "get",
+    //     // url: "http://localhost:3001/data",
+    //     url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+    //     headers: {
+    //       Authorization: tokenEmail.token,
+    //     },
+    //   }).then(function (response) {
+    //     setData(response.data.data);
+    //   });
+    //   axios({
+    //     method: "get",
+    //     // url: "http://localhost:3001/data",
+    //     url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/${tokenEmail.email}`,
+    //     headers: {
+    //       Authorization: tokenEmail.token,
+    //     },
+    //   }).then(function (response) {
+    //     setTokenEmail({
+    //       token: tokenEmail.token,
+    //       email: response.data.data.email,
+    //       nickname: response.data.data.nickname,
+    //     });
+    //   });
+    // }
+  }, [changed]);
   function loginHandler() {
+    if (isLogin) {
+      localStorage.removeItem("localToken");
+      localStorage.removeItem("email");
+    }
     setIsLogin(!isLogin);
   }
   return (

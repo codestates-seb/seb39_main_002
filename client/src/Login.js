@@ -35,6 +35,8 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
       .then(function (response) {
         // console.log(response.headers.authorization);
         if (response.status === 200) {
+          localStorage.setItem("localToken", response.headers.authorization);
+          localStorage.setItem("email", username);
           setIsLogin(!isLogin);
           setTokenEmail({
             token: response.headers.authorization,
