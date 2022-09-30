@@ -4,7 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 // import { Link } from "react-router-dom";
 
-function Login() {
+function Login({ isLogin, setIsLogin, setTokenEmail }) {
   const [isChecked, setisChecked] = useState(false);
   const idRegEx = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,11}$/;
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
@@ -13,8 +13,13 @@ function Login() {
     setisChecked(!isChecked);
   }
 
-  function linkToMain() {
-    window.location.href = `http://localhost:3000/loginmain`;
+  // function linkToMain() {
+  //   window.location.href = `http://localhost:3000/loginmain`;
+  // }
+  function goHome() {
+    window.history.pushState("", "", "http://localhost:3000/");
+    window.history.pushState("", "", "http://localhost:3000/");
+    window.history.back();
   }
 
   function postForm(username, password) {
@@ -30,7 +35,16 @@ function Login() {
       .then(function (response) {
         // console.log(response.headers.authorization);
         if (response.status === 200) {
-          linkToMain();
+          setIsLogin(!isLogin);
+          setTokenEmail({
+            token: response.headers.authorization,
+            email: username,
+            nickname: "server",
+          });
+          goHome();
+          // username,token 두개 저장해라
+          // console.log(response);
+          // linkToMain();
         }
       })
       .catch(function (error) {

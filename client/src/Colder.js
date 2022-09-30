@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import colder from "./img/냉장실.jpeg";
 import { AiOutlinePlus } from "react-icons/ai";
 
-function Colder({ data, setData }) {
+function Colder({ data, setData, tokenEmail }) {
   function deleteList(e, place) {
     setData({
       freezer: data["freezer"],
@@ -17,41 +17,41 @@ function Colder({ data, setData }) {
   return (
     <Main>
       <div className="blackbox">
-        <h1>Jay님의 냉장실</h1>
-      {data !== null ? (
-        <div className="container">
-          <div className="top">
-            <div className="listsBox">
-              <div className="lists">
-                {data.colder.map((el) => (
-                  <div key={el.id} className="list">
-                    <Link to={`/fooddetail/${el.id}/colder`}>{el.name}</Link>
-                    <button
-                      onClick={() => {
-                        deleteList(el.id, "colder");
-                      }}
-                    >
-                      x
-                    </button>
-                  </div>
-                ))}
+        <h1>
+          {tokenEmail.nickname === "" ? "Jay님의 냉장실" : tokenEmail.nickname}
+        </h1>
+        {data !== null ? (
+          <div className="container">
+            <div className="top">
+              <div className="listsBox">
+                <div className="lists">
+                  {data.colder.map((el) => (
+                    <div key={el.id} className="list">
+                      <Link to={`/fooddetail/${el.id}/colder`}>{el.name}</Link>
+                      <button
+                        onClick={() => {
+                          deleteList(el.id, "colder");
+                        }}
+                      >
+                        x
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-                    
-          
+        ) : (
+          ""
+        )}
+        <div className="buttoncontainer">
+          <Link to="/addfood">
+            <div className="bottomButton">
+              <p>재료 추가하기</p>
+              <AiOutlinePlus size="20" className="plusicon" />
+            </div>
+          </Link>
         </div>
-      ) : (
-        ""
-      )}
-      <div className="buttoncontainer">
-      <Link to="/addfood">
-        <div className="bottomButton">
-          <p>재료 추가하기</p>
-          <AiOutlinePlus size="20" className="plusicon"/>
-        </div>
-      </Link>
-      </div>
       </div>
     </Main>
   );
@@ -83,21 +83,21 @@ export const Main = styled.div`
   }
   .buttoncontainer {
     display: flex;
-    justify-content: center;    
+    justify-content: center;
   }
   .bottomButton {
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    color:#FF881B;   
+    color: #ff881b;
     font-weight: bold;
     width: 10rem;
     height: 2.5rem;
-    border-radius: 0.5rem;   
+    border-radius: 0.5rem;
     text-align: center;
     align-items: center;
-    background-color: white; 
+    background-color: white;
   }
   .listsBox {
     display: flex;

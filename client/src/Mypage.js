@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
-function Mypage() {
+function Mypage({ tokenEmail }) {
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
   function modifyProfile(nickname, memberEmail, memberPassword) {
     axios
@@ -54,7 +54,7 @@ function Mypage() {
             <div className="imgBox">
               <img src={process.env.PUBLIC_URL + `/logo192.png`}></img>
             </div>
-            <h1>{"Jay"}</h1>
+            <h1>{tokenEmail.nickname ? tokenEmail.nickname : "Jay"}</h1>
           </div>
           <form className="box box2" onSubmit={handleSubmit}>
             <div className="inputBox">
@@ -137,14 +137,15 @@ export const Main = styled.div`
   .inputDiv {
     margin-left: 8vw;
     margin-top: 10px;
-    width: 25vw;
+    width: 40vw;
     display: flex;
-    justify-content: space-between;
     span {
       font-size: 20px;
       font-weight: bold;
       display: flex;
       align-items: center;
+      width: 80px;
+      margin-right: 20px;
     }
   }
   input {

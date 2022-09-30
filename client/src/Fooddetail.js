@@ -5,12 +5,12 @@ import { useState } from "react";
 function Fooddetail({ place, data, setData }) {
   const { id } = useParams();
   const [here, SetHere] = useState(
-    ...data[place].filter((el) => el.id === Number(id))
+    ...data.filter((el) => el.id === Number(id))
   );
-  const [title, setTitle] = useState(here["name"]);
-  const [tag, setTag] = useState(here["type"]);
+  const [title, setTitle] = useState(here["foodName"]);
+  const [tag, setTag] = useState(here["foodClassification"]);
   const [quantity, setQuantity] = useState(here["quantity"]);
-  const [date, setDate] = useState(here["expirydate"]);
+  const [date, setDate] = useState(here["shelfLife"]);
   function titleHandler(e) {
     setTitle(e.target.value);
   }

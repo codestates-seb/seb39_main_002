@@ -22,17 +22,26 @@ import Recipedetail from "./Recipedetail";
 
 function App() {
   const [data, setData] = useState(null);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+  const [tokenEmail, setTokenEmail] = useState({
+    token: "",
+    email: "",
+    nickname: "",
+  });
+  const [changed, setChanged] = useState(false);
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://localhost:3001/data",
-      // url: "ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080",
+      // url: "http://localhost:3001/data",
+      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+      headers: {
+        Authorization: tokenEmail.token,
+      },
     }).then(function (response) {
-      setData(response.data);
-      console.log(response.data);
+      setData(response.data.data);
+      console.log(response.data.data);
     });
-  }, []);
+  }, [tokenEmail, changed]);
   function loginHandler() {
     setIsLogin(!isLogin);
   }
@@ -48,37 +57,68 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path="/loginmain" element={<Loginmain />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <Login
+                isLogin={isLogin}
+                setIsLogin={setIsLogin}
+                setTokenEmail={setTokenEmail}
+              />
+            }
+          />
           <Route path="/find" element={<Find />} />
           <Route
             path="/refrigerator"
-            element={<Refrigerator data={data} setData={setData} />}
+            element={
+              <Refrigerator
+                data={data}
+                setData={setData}
+                tokenEmail={tokenEmail}
+              />
+            }
           />
           <Route
             path="/colder"
-            element={<Colder data={data} setData={setData} />}
+            element={
+              <Colder data={data} setData={setData} tokenEmail={tokenEmail} />
+            }
           />
           <Route
             path="/freezer"
-            element={<Freezer data={data} setData={setData} />}
+            element={
+              <Freezer data={data} setData={setData} tokenEmail={tokenEmail} />
+            }
           />
           <Route
             path="/fooddetail/:id/colder"
             element={
-              <Fooddetail place={"colder"} data={data} setData={setData} />
+              <Fooddetail
+                place={"COLD_STORAGE"}
+                data={data}
+                setData={setData}
+              />
             }
           />
           <Route
             path="/fooddetail/:id/freezer"
             element={
-              <Fooddetail place={"freezer"} data={data} setData={setData} />
+              <Fooddetail place={"FREEZER"} data={data} setData={setData} />
             }
           />
           <Route
             path="/addfood"
-            element={<Addfood data={data} setData={setData} />}
+            element={
+              <Addfood
+                data={data}
+                setData={setData}
+                tokenEmail={tokenEmail}
+                setChanged={setChanged}
+                changed={changed}
+              />
+            }
           />
-          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/mypage" element={<Mypage tokenEmail={tokenEmail} />} />
           <Route path="/findrecipe" element={<Findrecipe />} />
           <Route path="/recommendation" element={<Recommendation />} />
         </Routes>

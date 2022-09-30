@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import freezer from "./img/냉동실.jpeg";
 import { AiOutlinePlus } from "react-icons/ai";
 
-
-function Freezer({ data, setData }) {
+function Freezer({ data, setData, tokenEmail }) {
   function deleteList(e, place) {
     setData({
       freezer: data[place].filter((el) => el.id !== e),
@@ -16,41 +15,42 @@ function Freezer({ data, setData }) {
     //이후 서버에 delete 한 객체를 PUT으로 올리기(json한정)
   }
   return (
-    <Main>      
-        <div className="blackbox">
-        <h1>Jay님의 냉동실</h1>
-          {data !== null ? (
-            <div className="container">
-              <div className="top">            
-                <div className="listsBox">
-                  <div className="lists">
-                    {data.freezer.map((el) => (
-                      <div key={el.id} className="list">
-                        <Link to={`/fooddetail/${el.id}/freezer`}>{el.name}</Link>
-                        <button
-                          onClick={() => {
-                            deleteList(el.id, "freezer");
-                          }}
-                          >
-                          x
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+    <Main>
+      <div className="blackbox">
+        <h1>
+          {tokenEmail.nickname === "" ? "Jay님의 냉동실" : tokenEmail.nickname}
+        </h1>
+        {data !== null ? (
+          <div className="container">
+            <div className="top">
+              <div className="listsBox">
+                <div className="lists">
+                  {data.freezer.map((el) => (
+                    <div key={el.id} className="list">
+                      <Link to={`/fooddetail/${el.id}/freezer`}>{el.name}</Link>
+                      <button
+                        onClick={() => {
+                          deleteList(el.id, "freezer");
+                        }}
+                      >
+                        x
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
-              
             </div>
-          ) : (
-            ""
-            )}
-        <div className="buttoncontainer">        
-        <Link to="/addfood">
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="buttoncontainer">
+          <Link to="/addfood">
             <div className="bottomButton">
               <p>재료 추가하기</p>
-              <AiOutlinePlus size="20" className="plusicon"/>
+              <AiOutlinePlus size="20" className="plusicon" />
             </div>
-        </Link>
+          </Link>
         </div>
       </div>
     </Main>
@@ -87,17 +87,17 @@ export const Main = styled.div`
   }
   .bottomButton {
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    color:#FF881B;   
+    color: #ff881b;
     font-weight: bold;
     width: 10rem;
     height: 2.5rem;
-    border-radius: 0.5rem;   
+    border-radius: 0.5rem;
     text-align: center;
     align-items: center;
-    background-color: white;  
+    background-color: white;
   }
   .listsBox {
     display: flex;
