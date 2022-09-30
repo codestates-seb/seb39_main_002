@@ -39,9 +39,22 @@ function App() {
       },
     }).then(function (response) {
       setData(response.data.data);
-      console.log(response.data.data);
     });
-  }, [tokenEmail, changed]);
+    axios({
+      method: "get",
+      // url: "http://localhost:3001/data",
+      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/${tokenEmail.email}`,
+      headers: {
+        Authorization: tokenEmail.token,
+      },
+    }).then(function (response) {
+      setTokenEmail({
+        token: tokenEmail.token,
+        email: response.data.data.email,
+        nickname: response.data.data.nickname,
+      });
+    });
+  }, [changed, isLogin]);
   function loginHandler() {
     setIsLogin(!isLogin);
   }
@@ -54,8 +67,8 @@ function App() {
           <Route path="/dev" element={<Body />} />
           <Route path="/recipedetail" element={<Recipedetail />} />
           <Route path="/empty" element={<Empty />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/loginmain" element={<Loginmain />} />
+          {/* <Route path="/main" element={<Main />} /> */}
+          {/* <Route path="/loginmain" element={<Loginmain />} /> */}
           <Route path="/signup" element={<Signup />} />
           <Route
             path="/login"
@@ -90,7 +103,7 @@ function App() {
               <Freezer data={data} setData={setData} tokenEmail={tokenEmail} />
             }
           />
-          <Route
+          {/* <Route
             path="/fooddetail/:id/colder"
             element={
               <Fooddetail
@@ -103,7 +116,27 @@ function App() {
           <Route
             path="/fooddetail/:id/freezer"
             element={
-              <Fooddetail place={"FREEZER"} data={data} setData={setData} />
+              <Fooddetail
+                place={"FREEZER"}
+                data={data}
+                setData={setData}
+                tokenEmail={tokenEmail}
+                setChanged={setChanged}
+                changed={changed}
+              />
+            }
+          /> */}
+
+          <Route
+            path="/fooddetail/:id"
+            element={
+              <Fooddetail
+                data={data}
+                setData={setData}
+                tokenEmail={tokenEmail}
+                setChanged={setChanged}
+                changed={changed}
+              />
             }
           />
           <Route
@@ -118,7 +151,16 @@ function App() {
               />
             }
           />
-          <Route path="/mypage" element={<Mypage tokenEmail={tokenEmail} />} />
+          <Route
+            path="/mypage"
+            element={
+              <Mypage
+                tokenEmail={tokenEmail}
+                setChanged={setChanged}
+                changed={changed}
+              />
+            }
+          />
           <Route path="/findrecipe" element={<Findrecipe />} />
           <Route path="/recommendation" element={<Recommendation />} />
         </Routes>

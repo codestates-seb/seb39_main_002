@@ -1,8 +1,9 @@
+import axios from "axios";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 
-function Fooddetail({ place, data, setData }) {
+function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
   const { id } = useParams();
   const [here, SetHere] = useState(
     ...data.filter((el) => el.id === Number(id))
@@ -23,65 +24,88 @@ function Fooddetail({ place, data, setData }) {
   function dateHandler(e) {
     setDate(e.target.value);
   }
-  function dataHandler() {
-    let newData = {
-      id: Number(id),
-      name: title,
-      type: tag,
-      quantity: quantity,
-      expirydate: date,
-    };
-    let idx = data[place].indexOf(here);
-    let DATA = [...data[place]];
-    DATA.splice(idx, 1, newData);
-    if (place === "colder") {
-      setData({
-        freezer: data["freezer"],
-        colder: DATA,
-        colderLast: data["colderLast"],
-        freezerLast: data["freezerLast"],
+  function dataHandler(e) {
+    if (e.target.textContent === "냉동실로 옮기기") {
+      //냉장실 id 삭제
+      //냉동실에 post
+      axios({
+        method: "delete",
+        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
       });
-    } else if (place === "freezer") {
-      setData({
-        freezer: DATA,
-        colder: data["colder"],
-        colderLast: data["colderLast"],
-        freezerLast: data["freezerLast"],
+      axios({
+        method: "post",
+        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: "FREEZER",
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 201) {
+          setChanged(!changed);
+        }
+      });
+    }
+    if (e.target.textContent === "냉장실로 옮기기") {
+      //냉동실(현재id) 삭제
+      //냉장실 추가
+      axios({
+        method: "delete",
+        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+      });
+      axios({
+        method: "post",
+        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: "COLD_STORAGE",
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 201) {
+          setChanged(!changed);
+        }
+      });
+    }
+    if (e.target.textContent === "수정하기") {
+      //현재 id patch로 수정
+      axios({
+        method: "patch",
+        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: here.refrigerator,
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 200) {
+          setChanged(!changed);
+        }
       });
     }
   }
-  function dataMoveHander() {
-    let DATA = data[place].filter((el) => el.id !== Number(id));
-    if (place === "colder") {
-      let newData = {
-        id: data["freezerLast"] + 1,
-        name: title,
-        type: tag,
-        quantity: quantity,
-        expirydate: date,
-      };
-      setData({
-        freezer: [...data["freezer"], newData],
-        colder: DATA,
-        colderLast: data["colderLast"],
-        freezerLast: data["freezerLast"] + 1,
-      });
-    } else if (place === "freezer") {
-      let newData = {
-        id: data["colderLast"] + 1,
-        name: title,
-        type: tag,
-        quantity: quantity,
-        expirydate: date,
-      };
-      setData({
-        freezer: DATA,
-        colder: [...data["colder"], newData],
-        colderLast: data["colderLast"] + 1,
-        freezerLast: data["freezerLast"],
-      });
-    }
-  }
+
   function goBack() {
     window.history.back();
   }
@@ -190,19 +214,17 @@ function Fooddetail({ place, data, setData }) {
         </div>
         <div className="bottomLink">
           <Link
-            // to={`/${place === "colder" ? "freezer" : "colder"}`}여기도 고려
             to="/refrigerator"
             className="bottomButton"
-            onClick={dataMoveHander}
+            onClick={dataHandler}
           >
-            {place === "colder" ? (
+            {here.refrigerator === "COLD_STORAGE" ? (
               <div>냉동실로 옮기기</div>
             ) : (
               <div>냉장실로 옮기기</div>
             )}
           </Link>
           <Link
-            // to={`/${place}`} 이건 고려해야할 것 같다(다 볼 수 없으니)
             to="/refrigerator"
             className="bottomButton"
             onClick={dataHandler}

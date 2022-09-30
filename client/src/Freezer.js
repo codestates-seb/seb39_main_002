@@ -5,38 +5,47 @@ import freezer from "./img/냉동실.jpeg";
 import { AiOutlinePlus } from "react-icons/ai";
 
 function Freezer({ data, setData, tokenEmail }) {
-  function deleteList(e, place) {
-    setData({
-      freezer: data[place].filter((el) => el.id !== e),
-      colder: data["colder"],
-      colderLast: data["colderLast"],
-      freezerLast: data["freezerLast"],
+  function deleteList(id) {
+    axios({
+      method: "delete",
+      // url: "http://localhost:3001/data",
+      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+      headers: {
+        Authorization: tokenEmail.token,
+      },
+    }).then(function (response) {
+      if (response.status === 204) {
+        setData(data.filter((el) => el.id !== id));
+      }
     });
-    //이후 서버에 delete 한 객체를 PUT으로 올리기(json한정)
   }
   return (
     <Main>
       <div className="blackbox">
         <h1>
-          {tokenEmail.nickname === "" ? "Jay님의 냉동실" : tokenEmail.nickname}
+          {tokenEmail.nickname === ""
+            ? "Jay님의 냉동실"
+            : `${tokenEmail.nickname}님의 냉동실`}
         </h1>
         {data !== null ? (
           <div className="container">
             <div className="top">
               <div className="listsBox">
                 <div className="lists">
-                  {data.freezer.map((el) => (
-                    <div key={el.id} className="list">
-                      <Link to={`/fooddetail/${el.id}/freezer`}>{el.name}</Link>
-                      <button
-                        onClick={() => {
-                          deleteList(el.id, "freezer");
-                        }}
-                      >
-                        x
-                      </button>
-                    </div>
-                  ))}
+                  {data
+                    .filter((el) => el.refrigerator === "FREEZER")
+                    .map((el) => (
+                      <div key={el.id} className="list">
+                        <Link to={`/fooddetail/${el.id}`}>{el.foodName}</Link>
+                        <button
+                          onClick={() => {
+                            deleteList(el.id);
+                          }}
+                        >
+                          x
+                        </button>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>

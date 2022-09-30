@@ -29,7 +29,7 @@ function Refrigerator({ data, setData, tokenEmail }) {
               <h1>
                 {tokenEmail.nickname === ""
                   ? "Jay님의 냉장고"
-                  : tokenEmail.nickname}
+                  : `${tokenEmail.nickname}님의 냉장고`}
               </h1>
             </div>
             <div className="texts">
@@ -43,9 +43,7 @@ function Refrigerator({ data, setData, tokenEmail }) {
                     .filter((el) => el.refrigerator === "FREEZER")
                     .map((el) => (
                       <div key={el.id} className="list">
-                        <Link to={`/fooddetail/${el.id}/freezer`}>
-                          {el.foodName}
-                        </Link>
+                        <Link to={`/fooddetail/${el.id}`}>{el.foodName}</Link>
                         <button
                           onClick={() => {
                             deleteList(el.id);
@@ -75,9 +73,7 @@ function Refrigerator({ data, setData, tokenEmail }) {
                     .filter((el) => el.refrigerator === "COLD_STORAGE")
                     .map((el) => (
                       <div key={el.id} className="list">
-                        <Link to={`/fooddetail/${el.id}/colder`}>
-                          {el.foodName}
-                        </Link>
+                        <Link to={`/fooddetail/${el.id}`}>{el.foodName}</Link>
                         <button
                           onClick={() => {
                             deleteList(el.id, "colder");
