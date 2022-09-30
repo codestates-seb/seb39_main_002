@@ -1,21 +1,22 @@
 import styled from "styled-components";
 import axios from "axios";
-function Mypage() {
+function Mypage({ tokenEmail, setChanged, changed }) {
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
   function modifyProfile(nickname, memberEmail, memberPassword) {
-    axios
-      .PATCH(
-        "http://15.164.53.160:8080/v1/members/modify",
-        //+id(이 부분은 ) 유저 로그인 데이터에서 받아와야하기 때문에 params로 못함
-        {
-          password: memberPassword,
-          email: memberEmail,
-          nickname: nickname,
-        }
-      )
+    axios({
+      method: "patch",
+      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/${tokenEmail.email}`,
+      headers: {
+        Authorization: tokenEmail.token,
+      },
+      data: {
+        email: tokenEmail.email,
+        nickname: nickname,
+      },
+    })
       .then(function (response) {
-        console.log(response);
-        if (response.status === 201) {
+        if (response.status === 200) {
+          setChanged(!changed);
           alert(`${nickname}` + "`s profile changed");
         }
       })
@@ -37,6 +38,9 @@ function Mypage() {
         `Wrong password\npassword should have 1 caracter and 1 number and 1 special caracter with 8~16 length`
       );
     }
+    if (tokenEmail.email !== memberEmail) {
+      Error.push(`Wrong email\nemail does not match`);
+    }
     if (Error.length) {
       alert(Error.join("\n\n"));
     }
@@ -54,7 +58,7 @@ function Mypage() {
             <div className="imgBox">
               <img src={process.env.PUBLIC_URL + `/logo192.png`}></img>
             </div>
-            <h1>{"Jay"}</h1>
+            <h1>{tokenEmail.nickname ? tokenEmail.nickname : "Jay"}</h1>
           </div>
           <form className="box box2" onSubmit={handleSubmit}>
             <div className="inputBox">
@@ -137,14 +141,15 @@ export const Main = styled.div`
   .inputDiv {
     margin-left: 8vw;
     margin-top: 10px;
-    width: 25vw;
+    width: 40vw;
     display: flex;
-    justify-content: space-between;
     span {
       font-size: 20px;
       font-weight: bold;
       display: flex;
       align-items: center;
+      width: 80px;
+      margin-right: 20px;
     }
   }
   input {

@@ -36,7 +36,7 @@ export const Main = styled.div`
   display: flex;
   justify-content: center;
   .container {
-    width: 80vw;
+    width: 90vw;
   }
   .title {
     display: flex;
@@ -45,12 +45,13 @@ export const Main = styled.div`
   .lists {
     display: flex;
     flex-wrap: wrap;
-    width: 70vw;
-    margin-left: 7vw;
+    justify-content: center;
+    width: 80vw;
+    margin-left: 5vw;
   }
   .list {
-    height: 400px;
-    width: 300px;
+    height: 300px;
+    width: 250px;
     background-color: #d9d9d9;
     margin: 50px;
   }

@@ -4,54 +4,63 @@ import { Link } from "react-router-dom";
 import colder from "./img/냉장실.jpeg";
 import { AiOutlinePlus } from "react-icons/ai";
 
-function Colder({ data, setData }) {
-  function deleteList(e, place) {
-    setData({
-      freezer: data["freezer"],
-      colder: data[place].filter((el) => el.id !== e),
-      colderLast: data["colderLast"],
-      freezerLast: data["freezerLast"],
+function Colder({ data, setData, tokenEmail }) {
+  function deleteList(id) {
+    axios({
+      method: "delete",
+      // url: "http://localhost:3001/data",
+      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+      headers: {
+        Authorization: tokenEmail.token,
+      },
+    }).then(function (response) {
+      if (response.status === 204) {
+        setData(data.filter((el) => el.id !== id));
+      }
     });
-    //이후 서버에 delete 한 객체를 PUT으로 올리기(json한정)
   }
   return (
     <Main>
       <div className="blackbox">
-        <h1>Jay님의 냉장실</h1>
-      {data !== null ? (
-        <div className="container">
-          <div className="top">
-            <div className="listsBox">
-              <div className="lists">
-                {data.colder.map((el) => (
-                  <div key={el.id} className="list">
-                    <Link to={`/fooddetail/${el.id}/colder`}>{el.name}</Link>
-                    <button
-                      onClick={() => {
-                        deleteList(el.id, "colder");
-                      }}
-                    >
-                      x
-                    </button>
-                  </div>
-                ))}
+        <h1>
+          {tokenEmail.nickname === ""
+            ? "Jay님의 냉장실"
+            : `${tokenEmail.nickname}님의 냉장실`}
+        </h1>
+        {data !== null ? (
+          <div className="container">
+            <div className="top">
+              <div className="listsBox">
+                <div className="lists">
+                  {data
+                    .filter((el) => el.refrigerator === "COLD_STORAGE")
+                    .map((el) => (
+                      <div key={el.id} className="list">
+                        <Link to={`/fooddetail/${el.id}`}>{el.foodName}</Link>
+                        <button
+                          onClick={() => {
+                            deleteList(el.id);
+                          }}
+                        >
+                          x
+                        </button>
+                      </div>
+                    ))}
+                </div>
               </div>
             </div>
           </div>
-                    
-          
+        ) : (
+          ""
+        )}
+        <div className="buttoncontainer">
+          <Link to="/addfood">
+            <div className="bottomButton">
+              <p>재료 추가하기</p>
+              <AiOutlinePlus size="20" className="plusicon" />
+            </div>
+          </Link>
         </div>
-      ) : (
-        ""
-      )}
-      <div className="buttoncontainer">
-      <Link to="/addfood">
-        <div className="bottomButton">
-          <p>재료 추가하기</p>
-          <AiOutlinePlus size="20" className="plusicon"/>
-        </div>
-      </Link>
-      </div>
       </div>
     </Main>
   );
@@ -83,21 +92,21 @@ export const Main = styled.div`
   }
   .buttoncontainer {
     display: flex;
-    justify-content: center;    
+    justify-content: center;
   }
   .bottomButton {
     display: flex;
-    flex-direction: row;    
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    color:#FF881B;   
+    color: #ff881b;
     font-weight: bold;
     width: 10rem;
     height: 2.5rem;
-    border-radius: 0.5rem;   
+    border-radius: 0.5rem;
     text-align: center;
     align-items: center;
-    background-color: white; 
+    background-color: white;
   }
   .listsBox {
     display: flex;

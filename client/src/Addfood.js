@@ -1,8 +1,9 @@
+import axios from "axios";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-function Addfood({ data, setData }) {
+function Addfood({ data, setData, tokenEmail, setChanged, changed }) {
   const [title, setTitle] = useState("");
   const [tag, setTag] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -19,39 +20,52 @@ function Addfood({ data, setData }) {
   function dateHandler(e) {
     setDate(e.target.value);
   }
-  function dataHandlerFreezer() {
-    let addData = {
-      expirydate: date,
-      id: data["freezerLast"] + 1,
-      name: title,
-      quantity: quantity,
-      type: tag,
-    };
-    setData({
-      freezer: [...data["freezer"], addData],
-      colder: data["colder"],
-      colderLast: data["colderLast"],
-      freezerLast: data["freezerLast"] + 1,
-    });
-  }
-  function dataHandlerColder() {
-    let addData = {
-      expirydate: date,
-      id: data["colderLast"] + 1,
-      name: title,
-      quantity: quantity,
-      type: tag,
-    };
-    setData({
-      freezer: data["freezer"],
-      colder: [...data["colder"], addData],
-      colderLast: data["colderLast"] + 1,
-      freezerLast: data["freezerLast"],
-    });
+  function dataHandler(e) {
+    if (e.target.textContent === "냉장실에 추가하기 ╋") {
+      axios({
+        method: "post",
+        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: "COLD_STORAGE",
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 201) {
+          setChanged(!changed);
+        }
+      });
+    }
+    if (e.target.textContent === "냉동실에 추가하기 ╋") {
+      axios({
+        method: "post",
+        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: "FREEZER",
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 201) {
+          setChanged(!changed);
+        }
+      });
+    }
   }
   function goBack() {
     window.history.back();
   }
+
   return (
     <Main onClick={goBack}>
       <div className="container" onClick={(event) => event.stopPropagation()}>
@@ -160,8 +174,8 @@ function Addfood({ data, setData }) {
             // to="/freezer"
             to="/refrigerator"
             className="bottomButton"
-            value={"freezer"}
-            onClick={dataHandlerFreezer}
+            value="freezer"
+            onClick={dataHandler}
           >
             <div>냉동실에 추가하기 ╋</div>
           </Link>
@@ -169,8 +183,8 @@ function Addfood({ data, setData }) {
             // to="/colder"
             to="/refrigerator"
             className="bottomButton"
-            value={"colder"}
-            onClick={dataHandlerColder}
+            value="colder"
+            onClick={dataHandler}
           >
             <div>냉장실에 추가하기 ╋</div>
           </Link>
