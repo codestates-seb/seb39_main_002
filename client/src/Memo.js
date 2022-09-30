@@ -1,25 +1,70 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
-function Memo() {
+function Memo( { isLogin, setIsLogin } ) {  
+  
   const [isOpen, setIsOpen] = useState(false);
-  const [memos, setMemos] = useState([
-    { data: "아무데이터 넣어진거 초기값", id: 1 },
-  ]); //여기 데이터는 헤더나 app에서 받아서 props로 넘겨주기
-  const [id, setId] = useState(memos.length);
+  const [memos, setMemos] = useState([{
+    "data": "메모1",
+    "id": 1
+  }]); //여기 데이터는 헤더나 app에서 받아서 props로 넘겨주기
+  const [change, setChange] = useState(true)
+
   const openModalHandler = () => {
     setIsOpen(!isOpen);
   };
+  
+  
+  useEffect(() => {
+    if(1){
+      axios({
+        method: "get",
+        url: "http://localhost:3003/memo",
+        // url: "ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080",
+      }).then(function (response) {
+        setMemos(response.data);
+        // console.log(response.data);
+      });
+    }
+  }, [change]);
+  
+
   function enterKeyHandler(e) {
     if (e.key === "Enter") {
-      setMemos([...memos, { data: e.target.value, id: id + 1 }]);
-      setId(id + 1);
+      axios({
+        method: "post",
+        url: "http://localhost:3003/memo",        
+        data: {
+          data: e.target.value          
+        },
+      })
+      .then(function (response) {        
+          setChange(!change);        
+      });
+
+      // setMemos([...memos, { data: e.target.value, id: id + 1 }]);
+      // setId(id + 1);
       e.target.value = "";
     }
   }
+
   function memoDelete(e) {
+    //  console.log(e.target.id)
+    axios({
+
+      method: "delete",
+      url: "http://localhost:3003/memo/" + e.target.id,  
+      
+    })
+    .then(function (response) {        
+        setChange(!change);        
+    });
     setMemos([...memos].filter((el) => el.id !== Number(e.target.id)));
   }
+
+
+
   return (
     <>
       <Main>
@@ -91,11 +136,9 @@ export const Main = styled.span`
     position: relative;
     top: -50px;
     padding: 10px;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     .memos {
       margin-top: 20px;
     }
