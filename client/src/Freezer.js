@@ -75,6 +75,9 @@ export const Main = styled.div`
   .blackbox {
     height: 92.6vh;
     background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   h1 {
     color: white;
@@ -93,6 +96,7 @@ export const Main = styled.div`
   .buttoncontainer {
     display: flex;
     justify-content: center;
+    margin-bottom: 0.7rem;
   }
   .bottomButton {
     display: flex;

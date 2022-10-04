@@ -19,6 +19,7 @@ import Main from "./Main";
 import MainSum from "./MainSum";
 import Empty from "./components/Empty";
 import Recipedetail from "./Recipedetail";
+import Memo from "./Memo";
 
 function App() {
   const [data, setData] = useState(null);
@@ -97,9 +98,9 @@ function App() {
   }
   return (
     <BrowserRouter>
-      <Header isLogin={isLogin} loginHandler={loginHandler} />
+      <Header isLogin={isLogin} setIsLogin={setIsLogin} loginHandler={loginHandler} />
       <div>
-        <Routes>
+        <Routes>          
           <Route path="/" element={<MainSum isLogin={isLogin} />} />
           <Route path="/dev" element={<Body />} />
           <Route path="/recipedetail" element={<Recipedetail />} />

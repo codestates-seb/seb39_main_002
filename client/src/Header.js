@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import Memo from "./Memo";
-function Header({ isLogin, loginHandler }) {
+function Header({ isLogin, setIsLogin, loginHandler }) {
   return (
     <>
       <Main>
@@ -14,7 +14,7 @@ function Header({ isLogin, loginHandler }) {
             <button onClick={loginHandler}>setlogin</button>
           </div>
           <div className="header-right">
-            <span className="modal">{isLogin ? <Memo /> : ""}</span>
+            <span className="modal">{isLogin ? <Memo isLogin={isLogin} setIsLogin={setIsLogin}/> : ""}</span>
             <span>
               {isLogin ? (
                 <Link to="/mypage">내정보</Link>

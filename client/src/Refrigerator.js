@@ -134,6 +134,9 @@ export const Main = styled.div`
   .blackbox2 {
     height: 46.3vh;
     background-color: rgba(0, 0, 0, 0.4);
+    display : flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .texts {
     padding: 30px 0 30px 0;
@@ -152,9 +155,9 @@ export const Main = styled.div`
     color: #c1c1c1;
   }
   .buttoncontainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex;   
+    justify-content : center;    
+    margin-bottom  : 0.7rem;
   }
   .bottomButton {
     display: flex;
@@ -168,7 +171,7 @@ export const Main = styled.div`
     border-radius: 0.5rem;
     text-align: center;
     align-items: center;
-    background-color: white;
+    background-color: white;    
   }
   .plusicon {
     padding-left: 0.5rem;
