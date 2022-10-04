@@ -315,6 +315,9 @@ export const Main = styled.div`
     a {
       text-decoration: none;
     }
+    a:link {
+      color: #ffa249;
+    }
     a:visited {
       color: #ffa249;
     }

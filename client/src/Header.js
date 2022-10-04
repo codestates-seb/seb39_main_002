@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import Memo from "./Memo";
+import logo from "./img/logo.png"
+
 function Header({ isLogin, setIsLogin, loginHandler, setTokenEmail }) {
   return (
     <>
@@ -9,22 +11,24 @@ function Header({ isLogin, setIsLogin, loginHandler, setTokenEmail }) {
         <div className="header-container">
           <div>
             <span>
-              <Link to="/">Logo</Link>
+              <Link to="/">
+                <Img src={logo} alt="logo" />
+              </Link>
             </span>
             {/* <button onClick={loginHandler}>setlogin</button> */}
           </div>
           <div className="header-right">
-<<<<<<< HEAD
             <span className="modal">
               {isLogin ? (
-                <Memo isLogin={isLogin} setIsLogin={setIsLogin} />
+                <Memo
+                  isLogin={isLogin}
+                  setTokenEmail={setTokenEmail}
+                  setIsLogin={setIsLogin}
+                />
               ) : (
                 ""
               )}
             </span>
-=======
-            <span className="modal">{isLogin ? <Memo isLogin={isLogin} setTokenEmail={setTokenEmail} setIsLogin={setIsLogin}/> : ""}</span>
->>>>>>> 13a7ee3839937b1a35e13641872cb808142d7b8c
             <span>
               {isLogin ? (
                 <Link to="/mypage">내정보</Link>
@@ -57,21 +61,29 @@ export const Main = styled.div`
   height: 70px;
   .header-container {
     width: 100vw;
-    padding: 0 30px 0 30px;
+    padding: 15px 30px 0 30px;
     justify-content: space-between;
     display: flex;
   }
   .header-right {
+     padding-top: 4px;
     span {
-      padding-left: 50px;
+      padding-left: 50px;      
     }
   }
   a {
     text-decoration: none;
   }
+  a:link {
+    color: #ffffff;
+  }
   a:visited {
     color: #ffffff;
   }
 `;
+
+export const Img = styled.img`
+ width: 120px;
+`
 
 export default Header;

@@ -1,21 +1,18 @@
 import styled from "styled-components";
 
-function Recommendation() {
+function Recommendation({ tokenEmail }) {
   return (
     // Main 대신 빈 냉장고 component를 넣어줘서 진행할 수 있게 해줘야 한다(생긴 후)
     <Main>
       <div className="container">
         <div className="title">
           <h1>
-            {/* 아래 Jay는 username이 들어갈 예정 */}
-            {"Jay"}
+            {tokenEmail.nickname}
             님의 재료로 만들 수 있어요
           </h1>
         </div>
         <div className="lists">
           {/* 아래 내용물들은 레시피 데이터를 사용할 수 있을 때 mapping해서 만든 것을 가정 */}
-          <div className="list"></div>
-          <div className="list"></div>
           <div className="list"></div>
           <div className="list"></div>
           <div className="list"></div>
