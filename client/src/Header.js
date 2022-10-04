@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import Memo from "./Memo";
-function Header({ isLogin, setIsLogin, loginHandler }) {
+function Header({ isLogin, setIsLogin, loginHandler, setTokenEmail }) {
   return (
     <>
       <Main>
@@ -11,10 +11,20 @@ function Header({ isLogin, setIsLogin, loginHandler }) {
             <span>
               <Link to="/">Logo</Link>
             </span>
-            <button onClick={loginHandler}>setlogin</button>
+            {/* <button onClick={loginHandler}>setlogin</button> */}
           </div>
           <div className="header-right">
-            <span className="modal">{isLogin ? <Memo isLogin={isLogin} setIsLogin={setIsLogin}/> : ""}</span>
+<<<<<<< HEAD
+            <span className="modal">
+              {isLogin ? (
+                <Memo isLogin={isLogin} setIsLogin={setIsLogin} />
+              ) : (
+                ""
+              )}
+            </span>
+=======
+            <span className="modal">{isLogin ? <Memo isLogin={isLogin} setTokenEmail={setTokenEmail} setIsLogin={setIsLogin}/> : ""}</span>
+>>>>>>> 13a7ee3839937b1a35e13641872cb808142d7b8c
             <span>
               {isLogin ? (
                 <Link to="/mypage">내정보</Link>

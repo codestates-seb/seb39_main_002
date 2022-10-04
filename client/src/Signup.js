@@ -5,14 +5,14 @@ function Signup() {
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
 
   function linkToLogin() {
-    window.location.href = `http://localhost:3000/login`;
+    window.location.href = `https://002main.netlify.app/login`;
   }
 
   function postForm(id, password, email, nickname) {
     axios
       // .post("http://15.164.53.160:8080/v1/members/join", {
       .post(
-        "http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/join",
+        "https://factory-kms.com/v1/members/join",
         {
           id,
           password,

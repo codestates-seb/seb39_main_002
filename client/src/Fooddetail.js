@@ -30,14 +30,14 @@ function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
       //냉동실에 post
       axios({
         method: "delete",
-        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
         headers: {
           Authorization: tokenEmail.token,
         },
       });
       axios({
         method: "post",
-        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}`,
         headers: {
           Authorization: tokenEmail.token,
         },
@@ -59,14 +59,14 @@ function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
       //냉장실 추가
       axios({
         method: "delete",
-        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
         headers: {
           Authorization: tokenEmail.token,
         },
       });
       axios({
         method: "post",
-        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}`,
         headers: {
           Authorization: tokenEmail.token,
         },
@@ -87,7 +87,7 @@ function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
       //현재 id patch로 수정
       axios({
         method: "patch",
-        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
         headers: {
           Authorization: tokenEmail.token,
         },
@@ -321,7 +321,7 @@ export const Main = styled.div`
     height: 40px;
     margin: 10px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     color: #ff7a00;
     background-color: #ffd6af;
     border-radius: 30px;

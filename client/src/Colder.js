@@ -9,7 +9,7 @@ function Colder({ data, setData, tokenEmail }) {
     axios({
       method: "delete",
       // url: "http://localhost:3001/data",
-      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}/${id}`,
+      url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
       headers: {
         Authorization: tokenEmail.token,
       },

@@ -17,8 +17,8 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
   //   window.location.href = `http://localhost:3000/loginmain`;
   // }
   function goHome() {
-    window.history.pushState("", "", "http://localhost:3000/");
-    window.history.pushState("", "", "http://localhost:3000/");
+    window.history.pushState("", "", "https://002main.netlify.app/");
+    window.history.pushState("", "", "https://002main.netlify.app/");
     window.history.back();
   }
 
@@ -26,7 +26,7 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
     axios
       // .post("http://15.164.53.160:8080/v1/members/login", {
       .post(
-        "http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/login",
+        "https://factory-kms.com/v1/members/login",
         {
           username,
           password,

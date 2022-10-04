@@ -24,7 +24,7 @@ function Addfood({ data, setData, tokenEmail, setChanged, changed }) {
     if (e.target.textContent === "냉장실에 추가하기 ╋") {
       axios({
         method: "post",
-        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}`,
         headers: {
           Authorization: tokenEmail.token,
         },
@@ -44,7 +44,7 @@ function Addfood({ data, setData, tokenEmail, setChanged, changed }) {
     if (e.target.textContent === "냉동실에 추가하기 ╋") {
       axios({
         method: "post",
-        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}`,
         headers: {
           Authorization: tokenEmail.token,
         },
@@ -277,7 +277,7 @@ export const Main = styled.div`
     height: 40px;
     margin: 10px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     color: #ff7a00;
     background-color: #ffd6af;
     border-radius: 30px;
