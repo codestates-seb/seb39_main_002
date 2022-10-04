@@ -89,6 +89,9 @@ const Container = styled.div`
   a {
     text-decoration: none;
   }
+  a:link {
+    color: black;
+  }
   a:visited {
     color: black;
   }

@@ -14,17 +14,17 @@ function Header({ isLogin, setIsLogin, loginHandler, setTokenEmail }) {
             {/* <button onClick={loginHandler}>setlogin</button> */}
           </div>
           <div className="header-right">
-<<<<<<< HEAD
             <span className="modal">
               {isLogin ? (
-                <Memo isLogin={isLogin} setIsLogin={setIsLogin} />
+                <Memo
+                  isLogin={isLogin}
+                  setTokenEmail={setTokenEmail}
+                  setIsLogin={setIsLogin}
+                />
               ) : (
                 ""
               )}
             </span>
-=======
-            <span className="modal">{isLogin ? <Memo isLogin={isLogin} setTokenEmail={setTokenEmail} setIsLogin={setIsLogin}/> : ""}</span>
->>>>>>> 13a7ee3839937b1a35e13641872cb808142d7b8c
             <span>
               {isLogin ? (
                 <Link to="/mypage">내정보</Link>
@@ -68,6 +68,9 @@ export const Main = styled.div`
   }
   a {
     text-decoration: none;
+  }
+  a:link {
+    color: #ffffff;
   }
   a:visited {
     color: #ffffff;

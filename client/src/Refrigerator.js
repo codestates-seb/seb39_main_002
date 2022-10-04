@@ -134,7 +134,7 @@ export const Main = styled.div`
   .blackbox2 {
     height: 46.3vh;
     background-color: rgba(0, 0, 0, 0.4);
-    display : flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
@@ -151,13 +151,16 @@ export const Main = styled.div`
     margin-left: 10px;
     text-decoration: none;
   }
+  a:link {
+    color: #c1c1c1;
+  }
   a:visited {
     color: #c1c1c1;
   }
   .buttoncontainer {
-    display: flex;   
-    justify-content : center;    
-    margin-bottom  : 0.7rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.7rem;
   }
   .bottomButton {
     display: flex;
@@ -171,7 +174,7 @@ export const Main = styled.div`
     border-radius: 0.5rem;
     text-align: center;
     align-items: center;
-    background-color: white;    
+    background-color: white;
   }
   .plusicon {
     padding-left: 0.5rem;

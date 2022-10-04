@@ -90,6 +90,9 @@ export const Main = styled.div`
   a {
     text-decoration: none;
   }
+  a:link {
+    color: #c1c1c1;
+  }
   a:visited {
     color: #c1c1c1;
   }

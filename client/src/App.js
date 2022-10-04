@@ -52,7 +52,6 @@ function App() {
       });
       axios({
         method: "get",
-        // url: "http://localhost:3001/data",
         url: `https://factory-kms.com/v1/foods/${localStorage.getItem(
           "email"
         )}`,
@@ -63,33 +62,18 @@ function App() {
         setData(response.data.data);
       });
     }
-    // else {
-    //   axios({
-    //     method: "get",
-    //     // url: "http://localhost:3001/data",
-    //     url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${tokenEmail.email}`,
-    //     headers: {
-    //       Authorization: tokenEmail.token,
-    //     },
-    //   }).then(function (response) {
-    //     setData(response.data.data);
-    //   });
-    //   axios({
-    //     method: "get",
-    //     // url: "http://localhost:3001/data",
-    //     url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/${tokenEmail.email}`,
-    //     headers: {
-    //       Authorization: tokenEmail.token,
-    //     },
-    //   }).then(function (response) {
-    //     setTokenEmail({
-    //       token: tokenEmail.token,
-    //       email: response.data.data.email,
-    //       nickname: response.data.data.nickname,
-    //     });
-    //   });
-    // }
   }, [changed]);
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `https://factory-kms.com/v1/foods/${localStorage.getItem("email")}`,
+      headers: {
+        Authorization: localStorage.getItem("localToken"),
+      },
+    }).then(function (response) {
+      setData(response.data.data);
+    });
+  }, [isLogin]);
   function loginHandler() {
     if (isLogin) {
       localStorage.removeItem("localToken");
@@ -99,15 +83,18 @@ function App() {
   }
   return (
     <BrowserRouter>
-      <Header isLogin={isLogin} setIsLogin={setIsLogin} setTokenEmail={setTokenEmail} loginHandler={loginHandler} />
+      <Header
+        isLogin={isLogin}
+        setIsLogin={setIsLogin}
+        setTokenEmail={setTokenEmail}
+        loginHandler={loginHandler}
+      />
       <div>
-        <Routes>          
+        <Routes>
           <Route path="/" element={<MainSum isLogin={isLogin} />} />
           <Route path="/dev" element={<Body />} />
           <Route path="/recipedetail" element={<Recipedetail />} />
           <Route path="/empty" element={<Empty />} />
-          {/* <Route path="/main" element={<Main />} /> */}
-          {/* <Route path="/loginmain" element={<Loginmain />} /> */}
           <Route path="/signup" element={<Signup />} />
           <Route
             path="/login"
@@ -142,30 +129,6 @@ function App() {
               <Freezer data={data} setData={setData} tokenEmail={tokenEmail} />
             }
           />
-          {/* <Route
-            path="/fooddetail/:id/colder"
-            element={
-              <Fooddetail
-                place={"COLD_STORAGE"}
-                data={data}
-                setData={setData}
-              />
-            }
-          />
-          <Route
-            path="/fooddetail/:id/freezer"
-            element={
-              <Fooddetail
-                place={"FREEZER"}
-                data={data}
-                setData={setData}
-                tokenEmail={tokenEmail}
-                setChanged={setChanged}
-                changed={changed}
-              />
-            }
-          /> */}
-
           <Route
             path="/fooddetail/:id"
             element={
@@ -201,7 +164,10 @@ function App() {
             }
           />
           <Route path="/findrecipe" element={<Findrecipe />} />
-          <Route path="/recommendation" element={<Recommendation />} />
+          <Route
+            path="/recommendation"
+            element={<Recommendation tokenEmail={tokenEmail} />}
+          />
         </Routes>
       </div>
     </BrowserRouter>

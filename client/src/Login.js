@@ -13,9 +13,6 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
     setisChecked(!isChecked);
   }
 
-  // function linkToMain() {
-  //   window.location.href = `http://localhost:3000/loginmain`;
-  // }
   function goHome() {
     window.history.pushState("", "", "https://002main.netlify.app/");
     window.history.pushState("", "", "https://002main.netlify.app/");
@@ -24,16 +21,11 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
 
   function postForm(username, password) {
     axios
-      // .post("http://15.164.53.160:8080/v1/members/login", {
-      .post(
-        "https://factory-kms.com/v1/members/login",
-        {
-          username,
-          password,
-        }
-      )
+      .post("https://factory-kms.com/v1/members/login", {
+        username,
+        password,
+      })
       .then(function (response) {
-        // console.log(response.headers.authorization);
         if (response.status === 200) {
           localStorage.setItem("localToken", response.headers.authorization);
           localStorage.setItem("email", username);
@@ -45,12 +37,9 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
           });
           goHome();
           // username,token 두개 저장해라
-          // console.log(response);
-          // linkToMain();
         }
       })
       .catch(function (error) {
-        // linkToMain(); //에러로 인해 이동 되는지 테스트 하는 용도
         console.log(error);
       });
   }
@@ -58,14 +47,8 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const memberId = event.target[0].value;
-    // const email = event.target[0].value;
     const memberPassword = event.target[1].value;
     let Error = [];
-    // if (memberId.match(idRegEx) === null) {
-    //   Error.push(
-    //     `Wrong ID : ${memberId}\nID should Start with caracter and 4~12 length`
-    //   );
-    // }
     if (memberPassword.match(passwordRegEx) === null) {
       Error.push(
         `Wrong password\npassword should have 1 caracter and 1 number and 1 special caracter with 8~16 length`
@@ -75,7 +58,6 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
       alert(Error.join("\n\n"));
     }
     if (!Error.length) {
-      //   linkToLogin(); // 아래 작업이 되어야 하지만 일단 post가 안되는 상황이라 로그인 이동만 체크
       postForm(memberId, memberPassword);
     }
   };
@@ -311,6 +293,9 @@ export const Main = styled.div`
     align-items: center;
     a {
       text-decoration: none;
+    }
+    a:link {
+      color: black;
     }
     a:visited {
       color: black;
