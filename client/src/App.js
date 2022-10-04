@@ -36,7 +36,8 @@ function App() {
       axios({
         method: "get",
         // url: "http://localhost:3001/data",
-        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/${localStorage.getItem(
+        // https://factory-kms.com
+        url: `https://factory-kms.com/v1/members/${localStorage.getItem(
           "email"
         )}`,
         headers: {
@@ -52,7 +53,7 @@ function App() {
       axios({
         method: "get",
         // url: "http://localhost:3001/data",
-        url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/foods/${localStorage.getItem(
+        url: `https://factory-kms.com/v1/foods/${localStorage.getItem(
           "email"
         )}`,
         headers: {
@@ -98,7 +99,7 @@ function App() {
   }
   return (
     <BrowserRouter>
-      <Header isLogin={isLogin} setIsLogin={setIsLogin} loginHandler={loginHandler} />
+      <Header isLogin={isLogin} setIsLogin={setIsLogin} setTokenEmail={setTokenEmail} loginHandler={loginHandler} />
       <div>
         <Routes>          
           <Route path="/" element={<MainSum isLogin={isLogin} />} />
