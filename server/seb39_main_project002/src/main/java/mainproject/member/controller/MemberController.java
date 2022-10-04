@@ -1,13 +1,14 @@
-package mainproject.memeber.controller;
+package mainproject.member.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import mainproject.dto.SingleResponseDto;
-import mainproject.memeber.service.MemberService;
-import mainproject.memeber.dto.MemberDto;
-import mainproject.memeber.entity.Member;
-import mainproject.memeber.mapper.MemberMapper;
+import mainproject.member.dto.MemberDto;
+import mainproject.member.entity.Member;
+import mainproject.member.mapper.MemberMapper;
+import mainproject.member.service.MemberService;
+import mainproject.response.SingleResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,14 +41,12 @@ public class MemberController {
                 HttpStatus.CREATED);
     }
 
-//    @PostMapping("/login") //로그인 추가하기
 
-
-    @PatchMapping("/{member-id}") //회원정보 수정
+    @PatchMapping("/{email}") //회원정보 수정
     public ResponseEntity patchMember(
-            @PathVariable("member-id") @Positive long memberId,
+            @PathVariable("email")String email, Authentication authentication,
             @Valid @RequestBody MemberDto.Patch requestBody) {
-        requestBody.setMemberId(memberId);
+        requestBody.SetEmail(authentication.getName());
 
         Member member =
                 memberService.updateMember(mapper.memberPatchToMember(requestBody));
@@ -58,22 +57,20 @@ public class MemberController {
     }
 
 
-
-    @GetMapping("/{member-id}") //회원정보 조회
+    @GetMapping("/{email}") //회원정보 조회
     public ResponseEntity getMember(
-            @PathVariable("member-id") @Positive long memberId) {
-        Member member = memberService.findMember(memberId);
+            @PathVariable("email") String email, Authentication authentication) {
+        Member member = memberService.findMember(authentication.getName());
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.memberToMemberResponse(member))
                 , HttpStatus.OK);
     }
 
 
-
-    @DeleteMapping("/{member-id}") //회원 삭제
+    @DeleteMapping("/{email}") //회원 삭제
     public ResponseEntity deleteMember(
-            @PathVariable("member-id") @Positive long memberId) {
-        memberService.deleteMember(memberId);
+            @PathVariable("email") String email, Authentication authentication) {
+        memberService.deleteMember(authentication.getName());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

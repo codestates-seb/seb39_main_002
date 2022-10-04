@@ -58,18 +58,22 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/*/members/**").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER")
+                                .antMatchers(HttpMethod.POST, "/*/members/**").permitAll()
+                                .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
+                                .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER")
 
-                        .antMatchers(HttpMethod.POST, "/*/foods/**").hasRole("USER")
-                        .antMatchers(HttpMethod.PATCH, "/*/foods/**").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/*/foods").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/*/foods/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/*/foods/**").hasRole("USER")
-                        .anyRequest().permitAll()
+                                .antMatchers(HttpMethod.POST, "/*/foods/**").hasRole("USER")
+                                .antMatchers(HttpMethod.PATCH, "/*/foods/**").hasRole("USER")
+//                        .antMatchers(HttpMethod.GET, "/*/foods").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.GET, "/*/foods/**").hasAnyRole("USER")// 잠시 어드민 제거
+                                .antMatchers(HttpMethod.DELETE, "/*/foods/**").hasRole("USER")
+
+                                .antMatchers(HttpMethod.POST, "/*/notepad/**").hasRole("USER")
+                                .antMatchers(HttpMethod.DELETE, "/*/notepad/**").hasRole("USER")
+                                .antMatchers(HttpMethod.GET, "/*/notepad/**").hasAnyRole("USER")// 잠시 어드민 제거
+                                .anyRequest().permitAll()
                 );
         return http.build();
     }
@@ -83,7 +87,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(List.of(CorsConfiguration.ALL)); //cors 오류로 인해 추가
         configuration.addExposedHeader("Authorization");//클라이언트에 헤더 보여주기
 //        configuration.addAllowedHeader("Authorization"); //cors 오류로 인해 추가

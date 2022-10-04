@@ -13,10 +13,11 @@ public interface FoodMapper {
     Food foodPostDtoToFood(FoodDto requestBody);
 
     //식자재 조회
-    List<FoodDto>foodsToFoodResponseDto(List<Food> foods);
+    List<FoodDto> foodsToFoodResponseDto(List<Food> foods);
 
     //식자재 수정
     Food foodPatchToFood(FoodDto requestBody);
 
     FoodDto foodToFoodResponse(Food food);
+
 }

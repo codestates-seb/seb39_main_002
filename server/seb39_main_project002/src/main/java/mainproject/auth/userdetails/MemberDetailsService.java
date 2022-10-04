@@ -3,8 +3,8 @@ package mainproject.auth.userdetails;
 import mainproject.auth.utils.CustomAuthorityUtils;
 import mainproject.exception.BusinessLogicException;
 import mainproject.exception.ExceptionCode;
-import mainproject.memeber.entity.Member;
-import mainproject.memeber.repository.MemberRepository;
+import mainproject.member.entity.Member;
+import mainproject.member.repository.MemberRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,7 +34,6 @@ public class MemberDetailsService implements UserDetailsService {
 
     private final class MemberDetails extends Member implements UserDetails {
         MemberDetails(Member member) {
-            setMemberId(member.getMemberId());
             setEmail(member.getEmail());
             setPassword(member.getPassword());
             setRoles(member.getRoles());
