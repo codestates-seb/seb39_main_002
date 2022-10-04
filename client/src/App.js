@@ -64,15 +64,19 @@ function App() {
     }
   }, [changed]);
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `https://factory-kms.com/v1/foods/${localStorage.getItem("email")}`,
-      headers: {
-        Authorization: localStorage.getItem("localToken"),
-      },
-    }).then(function (response) {
-      setData(response.data.data);
-    });
+    if (localStorage.getItem("localToken")) {
+      axios({
+        method: "get",
+        url: `https://factory-kms.com/v1/foods/${localStorage.getItem(
+          "email"
+        )}`,
+        headers: {
+          Authorization: localStorage.getItem("localToken"),
+        },
+      }).then(function (response) {
+        setData(response.data.data);
+      });
+    }
   }, [isLogin]);
   function loginHandler() {
     if (isLogin) {
