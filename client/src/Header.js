@@ -11,10 +11,16 @@ function Header({ isLogin, setIsLogin, loginHandler }) {
             <span>
               <Link to="/">Logo</Link>
             </span>
-            <button onClick={loginHandler}>setlogin</button>
+            {/* <button onClick={loginHandler}>setlogin</button> */}
           </div>
           <div className="header-right">
-            <span className="modal">{isLogin ? <Memo isLogin={isLogin} setIsLogin={setIsLogin}/> : ""}</span>
+            <span className="modal">
+              {isLogin ? (
+                <Memo isLogin={isLogin} setIsLogin={setIsLogin} />
+              ) : (
+                ""
+              )}
+            </span>
             <span>
               {isLogin ? (
                 <Link to="/mypage">내정보</Link>
