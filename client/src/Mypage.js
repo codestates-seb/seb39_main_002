@@ -5,7 +5,7 @@ function Mypage({ tokenEmail, setChanged, changed }) {
   function modifyProfile(nickname, memberEmail, memberPassword) {
     axios({
       method: "patch",
-      url: `http://ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080/v1/members/${tokenEmail.email}`,
+      url: `https://factory-kms.com/v1/members/${tokenEmail.email}`,
       headers: {
         Authorization: tokenEmail.token,
       },

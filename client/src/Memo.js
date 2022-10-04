@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-function Memo( { isLogin, setIsLogin } ) {  
+function Memo( { isLogin, setIsLogin, setTokenEmail } ) {  
   
   const [isOpen, setIsOpen] = useState(false);
   const [memos, setMemos] = useState([{
@@ -20,11 +20,16 @@ function Memo( { isLogin, setIsLogin } ) {
     if(isLogin){
       axios({
         method: "get",
-        url: "http://localhost:3003/memo",
+        url: `https://factory-kms.com/v1/notepad/${localStorage.getItem(
+          "email"
+        )}`,
+        headers: {
+          Authorization: localStorage.getItem("localToken"),
+        }
         // url: "ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080",
       }).then(function (response) {
-        setMemos(response.data);
-        // console.log(response.data);
+        setMemos(response.data.data);
+        // console.log(response.data.data);
       });
     }
   }, [change]);
@@ -34,9 +39,14 @@ function Memo( { isLogin, setIsLogin } ) {
     if (e.key === "Enter") {
       axios({
         method: "post",
-        url: "http://localhost:3003/memo",        
+        url: `https://factory-kms.com/v1/notepad/${localStorage.getItem(
+          "email"
+        )}`,
+        headers: {
+          Authorization: localStorage.getItem("localToken"),
+        },        
         data: {
-          data: e.target.value          
+          contents: e.target.value          
         },
       })
       .then(function (response) {        
@@ -54,13 +64,17 @@ function Memo( { isLogin, setIsLogin } ) {
     axios({
 
       method: "delete",
-      url: "http://localhost:3003/memo/" + e.target.id,  
+      url: `https://factory-kms.com/v1/notepad/${localStorage.getItem(
+        "email"
+      )}/` + e.target.id,
+      headers: {
+        Authorization: localStorage.getItem("localToken"),
+      }  
       
     })
     .then(function (response) {        
         setChange(!change);        
-    });
-    setMemos([...memos].filter((el) => el.id !== Number(e.target.id)));
+    });    
   }
 
 
@@ -80,7 +94,7 @@ function Memo( { isLogin, setIsLogin } ) {
               <div className="memos">
                 {memos.map((el) => (
                   <div key={el.id} className="memobox">
-                    <span className="memo">{el.data}</span>
+                    <span className="memo">{el.contents}</span>
                     <button id={el.id} onClick={memoDelete}>
                       x
                     </button>
