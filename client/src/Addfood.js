@@ -277,7 +277,7 @@ export const Main = styled.div`
     height: 40px;
     margin: 10px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     color: #ff7a00;
     background-color: #ffd6af;
     border-radius: 30px;
