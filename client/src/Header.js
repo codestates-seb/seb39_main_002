@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
 import Memo from "./Memo";
-import logo from "./img/logo.png"
+import logo from "./img/logo.png";
 
 function Header({ isLogin, setIsLogin, loginHandler, setTokenEmail }) {
   return (
@@ -15,7 +15,6 @@ function Header({ isLogin, setIsLogin, loginHandler, setTokenEmail }) {
                 <Img src={logo} alt="logo" />
               </Link>
             </span>
-            {/* <button onClick={loginHandler}>setlogin</button> */}
           </div>
           <div className="header-right">
             <span className="modal">
@@ -66,9 +65,9 @@ export const Main = styled.div`
     display: flex;
   }
   .header-right {
-     padding-top: 4px;
+    padding-top: 4px;
     span {
-      padding-left: 50px;      
+      padding-left: 50px;
     }
   }
   a {
@@ -83,7 +82,7 @@ export const Main = styled.div`
 `;
 
 export const Img = styled.img`
- width: 120px;
-`
+  width: 120px;
+`;
 
 export default Header;
