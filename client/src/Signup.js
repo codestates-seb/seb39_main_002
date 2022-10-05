@@ -17,6 +17,9 @@ function Signup() {
       })
       .then(function (response) {
         if (response.status === 201) {
+          alert(
+            `회원가입 완료! ${nickname}님\n 이제 로그인할 수 있습니다`
+          );
           goLogin();
         }
       })
@@ -43,9 +46,7 @@ function Signup() {
       alert(Error.join("\n\n"));
     }
     if (!Error.length) {
-      alert(
-        `congratulation!  ${memberName}\nNow you can Log in to Refrigerator`
-      );
+      
       postForm(memberPassword, memberEmail, memberName);
     }
   };

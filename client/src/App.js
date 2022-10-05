@@ -67,14 +67,18 @@ function App() {
     if (localStorage.getItem("localToken")) {
       axios({
         method: "get",
-        url: `https://factory-kms.com/v1/foods/${localStorage.getItem(
+        url: `https://factory-kms.com/v1/members/${localStorage.getItem(
           "email"
         )}`,
         headers: {
           Authorization: localStorage.getItem("localToken"),
         },
       }).then(function (response) {
-        setData(response.data.data);
+        setTokenEmail({
+          token: localStorage.getItem("localToken"),
+          email: response.data.data.email,
+          nickname: response.data.data.nickname,
+        });
       });
     }
   }, [isLogin]);
@@ -82,8 +86,8 @@ function App() {
     if (isLogin) {
       localStorage.removeItem("localToken");
       localStorage.removeItem("email");
+      setIsLogin(false);
     }
-    setIsLogin(!isLogin);
   }
   return (
     <BrowserRouter>
