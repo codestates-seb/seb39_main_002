@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Carousel from "./components/Carousel";
 import { FaArrowRight } from "react-icons/fa";
 
-const Loginmain = () => {
+const Loginmain = ({ setTokenEmail, recipe }) => {
   return (
     <Container>
       <Div>
@@ -37,8 +37,8 @@ const Loginmain = () => {
         </div>
       </Div>
       <div className="content">
-        <p className="text4">Jay님의 추천 레시피</p>
-        <Carousel />
+        <p className="text4">{setTokenEmail.nickname}님의 추천 레시피</p>
+        <Carousel recipe={recipe} />
         <Link to="/recommendation">
           <div className="text2container">
             <p className="text2">레시피 더 둘러보기</p>

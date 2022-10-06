@@ -1,51 +1,39 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
-const Recipedetail = () => {
-  const [data, setData] = useState([
-    {
-      RCP_NM: "",
-      ATT_FILE_NO_MK: "",
-      RCP_PARTS_DTLS: "",
-      MANUAL01: "",
-      MANUAL_IMG01: "",
-    },
-  ]);
+const Recipedetail = ({ recipe }) => {
+  const { id } = useParams();
+  const [data, setData] = useState(recipe[id]);
 
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://localhost:3002/COOKRCP01",
-    }).then(function (response) {
-      setData(response.data.row.filter((el) => el.RCP_SEQ === "636"));
-    });
-  }, []);
+  // useEffect(() => {
+  //   setData(recipe[id]);
+  // }, []);
 
   let list = [];
   for (let i = 1; i < 10; i++) {
-    if (data[0]["MANUAL_IMG0" + i] === "" && data[0]["MANUAL0" + i] === "") {
+    if (data["MANUAL_IMG0" + i] === "" && data["MANUAL0" + i] === "") {
       break;
     }
-    if (data[0]["MANUAL_IMG0" + i] !== "") {
-      list.push(data[0]["MANUAL_IMG0" + i]);
+    if (data["MANUAL_IMG0" + i] !== "") {
+      list.push(data["MANUAL_IMG0" + i]);
     }
-    if (data[0]["MANUAL0" + i] !== "") {
-      list.push(data[0]["MANUAL0" + i]);
+    if (data["MANUAL0" + i] !== "") {
+      list.push(data["MANUAL0" + i]);
     }
   }
-
   return (
     <div>
-      {data[0].RCP_NM !== "" ? (
+      {data.RCP_NM !== "" ? (
         <Div>
-          <div className="name">{data[0].RCP_NM}</div>
-          <img className="mainimg" src={data[0].ATT_FILE_NO_MK}></img>
+          <div className="name">{data.RCP_NM}</div>
+          <img className="mainimg" src={data.ATT_FILE_NO_MK}></img>
           <p className="head">재료</p>
-          <p className="ingred">{data[0].RCP_PARTS_DTLS}</p>
+          <p className="ingred">{data.RCP_PARTS_DTLS}</p>
           <p className="head">만들기</p>
           {list.map((el) =>
-            el.slice(-3) === "png" ? (
+            el.slice(-3) === "png" || el.slice(-3) === "JPG" ? (
               <img key={list.indexOf(el)} className="orderimg" src={el}></img>
             ) : (
               <p key={list.indexOf(el)} className="ordertext">
