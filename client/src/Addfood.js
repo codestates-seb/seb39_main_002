@@ -1,8 +1,9 @@
+import axios from "axios";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-function Addfood({ data, setData }) {
+function Addfood({ data, setData, tokenEmail, setChanged, changed }) {
   const [title, setTitle] = useState("");
   const [tag, setTag] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -19,46 +20,65 @@ function Addfood({ data, setData }) {
   function dateHandler(e) {
     setDate(e.target.value);
   }
-  function dataHandlerFreezer() {
-    let addData = {
-      expirydate: date,
-      id: data["freezerLast"] + 1,
-      name: title,
-      quantity: quantity,
-      type: tag,
-    };
-    setData({
-      freezer: [...data["freezer"], addData],
-      colder: data["colder"],
-      colderLast: data["colderLast"],
-      freezerLast: data["freezerLast"] + 1,
-    });
+  function dataHandler(e) {
+    if (e.target.textContent === "냉장실에 추가하기 ╋") {
+      axios({
+        method: "post",
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: "COLD_STORAGE",
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 201) {
+          setChanged(!changed);
+        }
+      });
+    }
+    if (e.target.textContent === "냉동실에 추가하기 ╋") {
+      axios({
+        method: "post",
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: "FREEZER",
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 201) {
+          setChanged(!changed);
+        }
+      });
+    }
   }
-  function dataHandlerColder() {
-    let addData = {
-      expirydate: date,
-      id: data["colderLast"] + 1,
-      name: title,
-      quantity: quantity,
-      type: tag,
-    };
-    setData({
-      freezer: data["freezer"],
-      colder: [...data["colder"], addData],
-      colderLast: data["colderLast"] + 1,
-      freezerLast: data["freezerLast"],
-    });
+  function goBack() {
+    window.history.back();
   }
+
   return (
-    <Main>
-      <div className="container">
+    <Main onClick={goBack}>
+      <div className="container" onClick={(event) => event.stopPropagation()}>
         <div>
           <div className="title">
-            <input
-              placeholder="재료를 입력해주세요"
-              value={title}
-              onChange={titleHandler}
-            />
+            <div className="titleButton">
+              <input
+                placeholder="재료를 입력해주세요"
+                value={title}
+                onChange={titleHandler}
+              />
+              <button onClick={goBack}>x</button>
+            </div>
             <h1> </h1>
           </div>
         </div>
@@ -154,19 +174,19 @@ function Addfood({ data, setData }) {
             // to="/freezer"
             to="/refrigerator"
             className="bottomButton"
-            value={"freezer"}
-            onClick={dataHandlerFreezer}
+            value="freezer"
+            onClick={dataHandler}
           >
-            냉동실에 추가하기 ╋
+            <div>냉동실에 추가하기 ╋</div>
           </Link>
           <Link
             // to="/colder"
             to="/refrigerator"
             className="bottomButton"
-            value={"colder"}
-            onClick={dataHandlerColder}
+            value="colder"
+            onClick={dataHandler}
           >
-            냉장실에 추가하기 ╋
+            <div>냉장실에 추가하기 ╋</div>
           </Link>
         </div>
       </div>
@@ -186,6 +206,7 @@ export const Main = styled.div`
     align-items: center;
     height: 75vh;
     width: 40vw;
+    min-width: 720px;
     background-color: #ffa249;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -195,6 +216,7 @@ export const Main = styled.div`
   }
   .title {
     width: 32vw;
+    min-width: 570px;
     input {
       width: 250px;
       height: 40px;
@@ -222,6 +244,21 @@ export const Main = styled.div`
       margin: 30px auto;
     }
   }
+  .titleButton {
+    display: flex;
+    justify-content: space-between;
+    button {
+      color: white;
+      background-color: #ffa249;
+      border: white 1px solid;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 25px;
+      font-weight: bold;
+      margin-top: 50px;
+    }
+  }
   .tagText {
     width: 28vw;
     h2 {
@@ -230,6 +267,8 @@ export const Main = styled.div`
   }
   .tagBox {
     width: 28vw;
+    min-width: 500px;
+    max-width: 570px;
     display: flex;
     flex-wrap: wrap;
   }
@@ -238,7 +277,7 @@ export const Main = styled.div`
     height: 40px;
     margin: 10px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     color: #ff7a00;
     background-color: #ffd6af;
     border-radius: 30px;
@@ -251,6 +290,7 @@ export const Main = styled.div`
   .datas {
     justify-content: center;
     width: 28vw;
+    min-width: 500px;
     /* display: flex;
     flex-direction: column; */
   }
@@ -271,15 +311,31 @@ export const Main = styled.div`
     }
   }
   .bottomLink {
+    display: flex;
     a {
-      color: #ffa249;
-      background-color: #ffeddc;
       text-decoration: none;
-      padding: 5px;
-      margin: 5px;
+    }
+    a:link {
+      color: #ffa249;
     }
     a:visited {
       color: #ffa249;
+    }
+  }
+  .bottomButton {
+    div {
+      width: 200px;
+      height: 50px;
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ff881b;
+      background-color: #f2f2f2;
+      padding: 5px;
+      margin: 50px 15px 0 15px;
+      border-radius: 10px;
     }
   }
 `;

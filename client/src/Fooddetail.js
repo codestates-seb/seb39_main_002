@@ -1,16 +1,17 @@
+import axios from "axios";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 
-function Fooddetail({ place, data, setData }) {
+function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
   const { id } = useParams();
   const [here, SetHere] = useState(
-    ...data[place].filter((el) => el.id === Number(id))
+    ...data.filter((el) => el.id === Number(id))
   );
-  const [title, setTitle] = useState(here["name"]);
-  const [tag, setTag] = useState(here["type"]);
+  const [title, setTitle] = useState(here["foodName"]);
+  const [tag, setTag] = useState(here["foodClassification"]);
   const [quantity, setQuantity] = useState(here["quantity"]);
-  const [date, setDate] = useState(here["expirydate"]);
+  const [date, setDate] = useState(here["shelfLife"]);
   function titleHandler(e) {
     setTitle(e.target.value);
   }
@@ -23,75 +24,104 @@ function Fooddetail({ place, data, setData }) {
   function dateHandler(e) {
     setDate(e.target.value);
   }
-  function dataHandler() {
-    let newData = {
-      id: Number(id),
-      name: title,
-      type: tag,
-      quantity: quantity,
-      expirydate: date,
-    };
-    let idx = data[place].indexOf(here);
-    let DATA = [...data[place]];
-    DATA.splice(idx, 1, newData);
-    if (place === "colder") {
-      setData({
-        freezer: data["freezer"],
-        colder: DATA,
-        colderLast: data["colderLast"],
-        freezerLast: data["freezerLast"],
+  function dataHandler(e) {
+    if (e.target.textContent === "냉동실로 옮기기") {
+      //냉장실 id 삭제
+      //냉동실에 post
+      axios({
+        method: "delete",
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
       });
-    } else if (place === "freezer") {
-      setData({
-        freezer: DATA,
-        colder: data["colder"],
-        colderLast: data["colderLast"],
-        freezerLast: data["freezerLast"],
+      axios({
+        method: "post",
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: "FREEZER",
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 201) {
+          setChanged(!changed);
+        }
+      });
+    }
+    if (e.target.textContent === "냉장실로 옮기기") {
+      //냉동실(현재id) 삭제
+      //냉장실 추가
+      axios({
+        method: "delete",
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+      });
+      axios({
+        method: "post",
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: "COLD_STORAGE",
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 201) {
+          setChanged(!changed);
+        }
+      });
+    }
+    if (e.target.textContent === "수정하기") {
+      //현재 id patch로 수정
+      axios({
+        method: "patch",
+        url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
+        headers: {
+          Authorization: tokenEmail.token,
+        },
+        data: {
+          foodName: title,
+          foodClassification: tag,
+          refrigerator: here.refrigerator,
+          quantity: quantity,
+          shelfLife: date,
+        },
+      }).then(function (response) {
+        if (response.status === 200) {
+          setChanged(!changed);
+        }
       });
     }
   }
-  function dataMoveHander() {
-    let DATA = data[place].filter((el) => el.id !== Number(id));
-    if (place === "colder") {
-      let newData = {
-        id: data["freezerLast"] + 1,
-        name: title,
-        type: tag,
-        quantity: quantity,
-        expirydate: date,
-      };
-      setData({
-        freezer: [...data["freezer"], newData],
-        colder: DATA,
-        colderLast: data["colderLast"],
-        freezerLast: data["freezerLast"] + 1,
-      });
-    } else if (place === "freezer") {
-      let newData = {
-        id: data["colderLast"] + 1,
-        name: title,
-        type: tag,
-        quantity: quantity,
-        expirydate: date,
-      };
-      setData({
-        freezer: DATA,
-        colder: [...data["colder"], newData],
-        colderLast: data["colderLast"] + 1,
-        freezerLast: data["freezerLast"],
-      });
-    }
+
+  function goBack() {
+    window.history.back();
   }
   return (
-    <Main>
-      <div className="container">
+    <Main onClick={goBack}>
+      <div className="container" onClick={(event) => event.stopPropagation()}>
         <div>
           <div className="title">
-            <input
-              placeholder="재료를 입력해주세요"
-              value={title}
-              onChange={titleHandler}
-            />
+            <div className="titleButton">
+              <input
+                placeholder="재료를 입력해주세요"
+                value={title}
+                onChange={titleHandler}
+              />
+              <button onClick={goBack}>x</button>
+            </div>
             <h1> </h1>
           </div>
         </div>
@@ -184,20 +214,23 @@ function Fooddetail({ place, data, setData }) {
         </div>
         <div className="bottomLink">
           <Link
-            // to={`/${place === "colder" ? "freezer" : "colder"}`}여기도 고려
-            to="/refrigerator"
-            className="bottomButton"
-            onClick={dataMoveHander}
-          >
-            {place === "colder" ? "냉동실로 옮기기" : "냉장실로 옮기기"}
-          </Link>
-          <Link
-            // to={`/${place}`} 이건 고려해야할 것 같다(다 볼 수 없으니)
             to="/refrigerator"
             className="bottomButton"
             onClick={dataHandler}
           >
-            수정하기
+            {here.refrigerator === "COLD_STORAGE" ? (
+              <div>냉동실로 옮기기</div>
+            ) : (
+              <div>냉장실로 옮기기</div>
+            )}
+          </Link>
+          <Link
+            to="/refrigerator"
+            className="bottomButton"
+            onClick={dataHandler}
+          >
+            {" "}
+            <div>수정하기</div>
           </Link>
         </div>
       </div>
@@ -217,6 +250,7 @@ export const Main = styled.div`
     align-items: center;
     height: 75vh;
     width: 40vw;
+    min-width: 720px;
     background-color: #ffa249;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
@@ -226,6 +260,7 @@ export const Main = styled.div`
   }
   .title {
     width: 32vw;
+    min-width: 570px;
     input {
       width: 250px;
       height: 40px;
@@ -253,6 +288,21 @@ export const Main = styled.div`
       margin: 30px auto;
     }
   }
+  .titleButton {
+    display: flex;
+    justify-content: space-between;
+    button {
+      color: white;
+      background-color: #ffa249;
+      border: white 1px solid;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 25px;
+      font-weight: bold;
+      margin-top: 50px;
+    }
+  }
   .tagText {
     width: 28vw;
     h2 {
@@ -261,6 +311,8 @@ export const Main = styled.div`
   }
   .tagBox {
     width: 28vw;
+    min-width: 500px;
+    max-width: 570px;
     display: flex;
     flex-wrap: wrap;
   }
@@ -269,7 +321,7 @@ export const Main = styled.div`
     height: 40px;
     margin: 10px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     color: #ff7a00;
     background-color: #ffd6af;
     border-radius: 30px;
@@ -282,6 +334,7 @@ export const Main = styled.div`
   .datas {
     justify-content: center;
     width: 28vw;
+    min-width: 500px;
     /* display: flex;
   flex-direction: column; */
   }
@@ -302,15 +355,31 @@ export const Main = styled.div`
     }
   }
   .bottomLink {
+    display: flex;
     a {
-      color: #ffa249;
-      background-color: #ffeddc;
       text-decoration: none;
-      padding: 5px;
-      margin: 5px;
+    }
+    a:link {
+      color: #ffa249;
     }
     a:visited {
       color: #ffa249;
+    }
+  }
+  .bottomButton {
+    div {
+      width: 170px;
+      height: 50px;
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ff881b;
+      background-color: #ffffff;
+      padding: 5px;
+      margin: 50px 15px 0 15px;
+      border-radius: 10px;
     }
   }
 `;

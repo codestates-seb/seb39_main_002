@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 // import { Link } from "react-router-dom";
 
-function Login() {
+function Login({ isLogin, setIsLogin, setTokenEmail }) {
   const [isChecked, setisChecked] = useState(false);
   const idRegEx = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,11}$/;
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
@@ -11,26 +12,36 @@ function Login() {
   function checkHandler() {
     setisChecked(!isChecked);
   }
-  function linkToLogin() {
-    window.location.href = `http://localhost:3000/login`;
+
+  function goHome() {
+    window.history.pushState("", "", "https://002main.netlify.app/");
+    window.history.pushState("", "", "https://002main.netlify.app/");
+    window.history.back();
   }
+
   function postForm(username, password) {
-    fetch("http://15.164.53.160:8080/v1/members/join", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    axios
+      .post("https://factory-kms.com/v1/members/login", {
         username,
         password,
-        keeplogin: isChecked,
-      }),
-    }).then((res) => {
-      if (res.status === 201) {
-        linkToLogin();
-      }
-    });
+      })
+      .then(function (response) {
+        if (response.status === 200) {
+          localStorage.setItem("localToken", response.headers.authorization);
+          localStorage.setItem("email", username);
+          setIsLogin(!isLogin);
+          setTokenEmail({
+            token: response.headers.authorization,
+            email: username,
+            nickname: "server",
+          });
+          goHome();
+          // username,token 두개 저장해라
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   const handleSubmit = (event) => {
@@ -38,11 +49,6 @@ function Login() {
     const memberId = event.target[0].value;
     const memberPassword = event.target[1].value;
     let Error = [];
-    if (memberId.match(idRegEx) === null) {
-      Error.push(
-        `Wrong ID : ${memberId}\nID should Start with caracter and 4~12 length`
-      );
-    }
     if (memberPassword.match(passwordRegEx) === null) {
       Error.push(
         `Wrong password\npassword should have 1 caracter and 1 number and 1 special caracter with 8~16 length`
@@ -52,10 +58,6 @@ function Login() {
       alert(Error.join("\n\n"));
     }
     if (!Error.length) {
-      alert(
-        `congratulation!  ${memberId}\nNow you can Log in to stackoverflow`
-      );
-      //   linkToLogin(); // 아래 작업이 되어야 하지만 일단 post가 안되는 상황이라 로그인 이동만 체크
       postForm(memberId, memberPassword);
     }
   };
@@ -68,7 +70,7 @@ function Login() {
             <div className="form" onSubmit={handleSubmit}>
               <form>
                 <div>
-                  <label className="input-text">ID</label>
+                  <label className="input-text">Email</label>
                   <div>
                     <input type="text" id="display-name" name="display-name" />
                   </div>
@@ -291,6 +293,9 @@ export const Main = styled.div`
     align-items: center;
     a {
       text-decoration: none;
+    }
+    a:link {
+      color: black;
     }
     a:visited {
       color: black;

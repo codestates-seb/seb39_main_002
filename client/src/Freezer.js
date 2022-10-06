@@ -1,56 +1,84 @@
 import axios from "axios";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import freezer from "./img/냉동실.jpeg";
+import { AiOutlinePlus } from "react-icons/ai";
 
-function Freezer({ data, setData }) {
-  function deleteList(e, place) {
-    setData({
-      freezer: data[place].filter((el) => el.id !== e),
-      colder: data["colder"],
-      colderLast: data["colderLast"],
-      freezerLast: data["freezerLast"],
+function Freezer({ data, setData, tokenEmail }) {
+  function deleteList(id) {
+    axios({
+      method: "delete",
+      // url: "http://localhost:3001/data",
+      url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
+      headers: {
+        Authorization: tokenEmail.token,
+      },
+    }).then(function (response) {
+      if (response.status === 204) {
+        setData(data.filter((el) => el.id !== id));
+      }
     });
-    //이후 서버에 delete 한 객체를 PUT으로 올리기(json한정)
   }
   return (
     <Main>
-      {data !== null ? (
-        <div className="container">
-          <div className="top">
-            <h1>Jay님의 냉동실</h1>
-            <div className="listsBox">
-              <div className="lists">
-                {data.freezer.map((el) => (
-                  <div key={el.id} className="list">
-                    <Link to={`/fooddetail/${el.id}/freezer`}>{el.name}</Link>
-                    <button
-                      onClick={() => {
-                        deleteList(el.id, "freezer");
-                      }}
-                    >
-                      x
-                    </button>
-                  </div>
-                ))}
+      <div className="blackbox">
+        <h1>
+          {tokenEmail.nickname === ""
+            ? "Jay님의 냉동실"
+            : `${tokenEmail.nickname}님의 냉동실`}
+        </h1>
+        {data !== null ? (
+          <div className="container">
+            <div className="top">
+              <div className="listsBox">
+                <div className="lists">
+                  {data
+                    .filter((el) => el.refrigerator === "FREEZER")
+                    .map((el) => (
+                      <div key={el.id} className="list">
+                        <Link to={`/fooddetail/${el.id}`}>{el.foodName}</Link>
+                        <button
+                          onClick={() => {
+                            deleteList(el.id);
+                          }}
+                        >
+                          x
+                        </button>
+                      </div>
+                    ))}
+                </div>
               </div>
             </div>
           </div>
-          <div>
-            <Link to="/addfood" className="bottomButton">
-              재료 추가하기 ╋
-            </Link>
-          </div>
+        ) : (
+          ""
+        )}
+        <div className="buttoncontainer">
+          <Link to="/addfood">
+            <div className="bottomButton">
+              <p>재료 추가하기</p>
+              <AiOutlinePlus size="20" className="plusicon" />
+            </div>
+          </Link>
         </div>
-      ) : (
-        ""
-      )}
+      </div>
     </Main>
   );
 }
 
 export const Main = styled.div`
-  background-color: #2a2525;
+  background-image: url(${freezer});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   height: 92.6vh;
+  .blackbox {
+    height: 92.6vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   h1 {
     color: white;
     margin: 0;
@@ -62,15 +90,30 @@ export const Main = styled.div`
   a {
     text-decoration: none;
   }
+  a:link {
+    color: #c1c1c1;
+  }
   a:visited {
     color: #c1c1c1;
   }
+  .buttoncontainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.7rem;
+  }
   .bottomButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     color: #ff881b;
+    font-weight: bold;
+    width: 10rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    align-items: center;
     background-color: white;
-    a:visited {
-      color: #ff881b;
-    }
   }
   .listsBox {
     display: flex;

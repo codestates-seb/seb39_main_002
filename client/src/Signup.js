@@ -1,44 +1,36 @@
 import styled from "styled-components";
-
+import axios from "axios";
 function Signup() {
-  const idRegEx = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,11}$/;
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
 
-  function linkToLogin() {
-    window.location.href = `http://localhost:3000/login`;
+  function goLogin() {
+    window.history.pushState("", "", "https://002main.netlify.app/login");
+    window.history.pushState("", "", "https://002main.netlify.app/login");
+    window.history.back();
   }
-  function postForm(username, password, email, nickname) {
-    fetch("http://15.164.53.160:8080/v1/members/join", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
+  function postForm(password, email, nickname) {
+    axios
+      .post("https://factory-kms.com/v1/members/join", {
         password,
         email,
         nickname,
-      }),
-    }).then((res) => {
-      if (res.status === 201) {
-        linkToLogin();
-      }
-    });
+      })
+      .then(function (response) {
+        if (response.status === 201) {
+          goLogin();
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const memberId = event.target[0].value;
+    const memberEmail = event.target[0].value;
     const memberPassword = event.target[1].value;
-    const memberEmail = event.target[2].value;
-    const memberName = event.target[3].value;
+    const memberName = event.target[2].value;
     let Error = [];
-    if (memberId.match(idRegEx) === null) {
-      Error.push(
-        `Wrong ID : ${memberId}\nID should Start with caracter and 4~12 length`
-      );
-    }
     if (memberPassword.match(passwordRegEx) === null) {
       Error.push(
         `Wrong password\npassword should have 1 caracter and 1 number and 1 special caracter with 8~16 length`
@@ -49,14 +41,12 @@ function Signup() {
     }
     if (Error.length) {
       alert(Error.join("\n\n"));
-      // console.log(Error.join("\n"));
     }
     if (!Error.length) {
       alert(
-        `congratulation!  ${memberId}\nNow you can Log in to stackoverflow`
+        `congratulation!  ${memberName}\nNow you can Log in to Refrigerator`
       );
-      // linkToLogin(); // 아래 작업이 되어야 하지만 일단 post가 안되는 상황이라 로그인 이동만 체크
-      postForm(memberId, memberPassword, memberEmail, memberName);
+      postForm(memberPassword, memberEmail, memberName);
     }
   };
 
@@ -68,14 +58,9 @@ function Signup() {
             <div className="form" onSubmit={handleSubmit}>
               <form>
                 <div>
-                  <label className="input-text">ID</label>
+                  <label className="input-text">Email</label>
                   <div>
-                    <input
-                      type="text"
-                      id="display-name"
-                      name="display-name"
-                      size="30"
-                    />
+                    <input type="email" id="email" name="email" size="30" />
                   </div>
                 </div>
                 <div>
@@ -89,12 +74,6 @@ function Signup() {
                       name="password"
                       size="30"
                     />
-                  </div>
-                </div>
-                <div>
-                  <label className="input-text">Email</label>
-                  <div>
-                    <input type="email" id="email" name="email" size="30" />
                   </div>
                 </div>
 
