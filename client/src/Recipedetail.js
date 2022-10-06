@@ -33,7 +33,10 @@ const Recipedetail = ({ recipe }) => {
           <p className="ingred">{data.RCP_PARTS_DTLS}</p>
           <p className="head">만들기</p>
           {list.map((el) =>
-            el.slice(-3) === "png" || el.slice(-3) === "JPG" ? (
+            el.slice(-3) === "png" ||
+            el.slice(-3) === "jpg" ||
+            el.slice(-3) === "PNG" ||
+            el.slice(-3) === "JPG" ? (
               <img key={list.indexOf(el)} className="orderimg" src={el}></img>
             ) : (
               <p key={list.indexOf(el)} className="ordertext">
