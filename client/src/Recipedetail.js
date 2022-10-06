@@ -7,9 +7,12 @@ const Recipedetail = ({ recipe }) => {
   const { id } = useParams();
   const [data, setData] = useState(recipe[id]);
 
-  // useEffect(() => {
-  //   setData(recipe[id]);
-  // }, []);
+  useEffect(() => {    
+      window.scrollTo({
+        top: 0,
+        left: 0,       
+    });
+  }, []);
 
   let list = [];
   for (let i = 1; i < 10; i++) {
