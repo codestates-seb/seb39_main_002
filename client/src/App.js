@@ -99,12 +99,10 @@ function App() {
     }
   }, [isLogin]);
   useEffect(() => {
-    //recipe 받아오기
     axios({
       method: "get",
       url: `https://openapi.foodsafetykorea.go.kr/api/66d2d9b6ae214ef8afb7/COOKRCP01/json/1/1000`,
     }).then(function (response) {
-      console.log(response.data.COOKRCP01.row);
       setRecipe(response.data.COOKRCP01.row);
     });
   }, []);
