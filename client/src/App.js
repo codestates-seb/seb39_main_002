@@ -35,6 +35,7 @@ function App() {
       MANUAL_IMG01: "",
     },
   ]);
+  const [canMake, setCanMake] = useState(null);
 
   useEffect(() => {
     if (localStorage.getItem("localToken")) {
@@ -106,6 +107,33 @@ function App() {
       setRecipe(response.data.COOKRCP01.row);
     });
   }, []);
+  useEffect(() => {
+    if (data && data.length > 0 && recipe.length > 10) {
+      let arr = [];
+      let recipes = recipe.map((el, index) => [
+        index,
+        el.RCP_NM,
+        el.ATT_FILE_NO_MK,
+      ]);
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < recipes.length; j++) {
+          if (recipes[j][1].indexOf(data[i].foodName) !== -1) {
+            arr.push(recipes[j]);
+          }
+        }
+      }
+      let result = [...new Set(arr)];
+      setCanMake(
+        result.filter(
+          (el) =>
+            el[2].slice(-3) === "png" ||
+            el[2].slice(-3) === "jpg" ||
+            el[2].slice(-3) === "PNG" ||
+            el[2].slice(-3) === "JPG"
+        )
+      );
+    }
+  }, [recipe, data]);
 
   function loginHandler() {
     if (isLogin) {
@@ -132,8 +160,9 @@ function App() {
             element={
               <MainSum
                 isLogin={isLogin}
-                setTokenEmail={setTokenEmail}
+                tokenEmail={tokenEmail}
                 recipe={recipe}
+                canMake={canMake}
               />
             }
           />
@@ -213,7 +242,9 @@ function App() {
           />
           <Route
             path="/recommendation"
-            element={<Recommendation tokenEmail={tokenEmail} />}
+            element={
+              <Recommendation tokenEmail={tokenEmail} canMake={canMake} />
+            }
           />
         </Routes>
       </div>

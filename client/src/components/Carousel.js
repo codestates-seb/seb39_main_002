@@ -3,18 +3,9 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
-const Carousel = ({ recipe }) => {
-  const [data, setData] = useState(recipe);
+const Carousel = ({ canMake }) => {
+  const [data, setData] = useState(canMake);
   const [current, setCurrent] = useState(0);
-
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: "http://localhost:3002/COOKRCP01",
-  //   }).then(function (response) {
-  //     setData(response.data.row);
-  //   });
-  // }, []);
 
   const nextSlide = () => {
     setCurrent(current === data.length - 1 ? 0 : current + 1);
@@ -37,7 +28,7 @@ const Carousel = ({ recipe }) => {
             key={index}
           >
             {index === current && (
-              <img src={el.ATT_FILE_NO_MK} alt="recipe img" className="img" />
+              <img src={el[2]} alt="recipe img" className="img" />
             )}
           </div>
         );

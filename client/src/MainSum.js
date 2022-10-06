@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import Loginmain from "./Loginmain";
 import Main from "./Main";
-const MainSum = ({ isLogin, setTokenEmail, recipe }) => {
+const MainSum = ({ isLogin, tokenEmail, recipe, canMake }) => {
   return (
     <>
       {isLogin ? (
-        <Loginmain setTokenEmail={setTokenEmail} recipe={recipe} />
+        <Loginmain tokenEmail={tokenEmail} recipe={recipe} canMake={canMake} />
       ) : (
         <Main recipe={recipe} />
       )}

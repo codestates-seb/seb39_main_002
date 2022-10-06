@@ -14,9 +14,9 @@ const scrollDown = () => {
 
 const Main = ({ recipe }) => {
   const data = recipe.map((el, index) => [index, el.RCP_NM]);
+  const [options, setOptions] = useState(data);
   const [hasText, setHasText] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [options, setOptions] = useState(data);
 
   const handleInputChange = (event) => {
     if (event.target.value.length !== 0) {
@@ -147,6 +147,15 @@ const Div = styled.div`
     font-size: 1.5rem;
     border-radius: 0.5rem;
     border: none;
+  }
+  a {
+    text-decoration: none;
+  }
+  a:link {
+    color: black;
+  }
+  a:visited {
+    color: black;
   }
 `;
 export const DropDownContainer = styled.ul`
