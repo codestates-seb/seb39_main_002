@@ -23,7 +23,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final ApplicationEventPublisher publisher;
-
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
 

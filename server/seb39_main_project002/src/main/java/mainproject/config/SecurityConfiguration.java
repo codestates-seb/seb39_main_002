@@ -1,5 +1,6 @@
 package mainproject.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import mainproject.auth.filter.JwtAuthenticationFilter;
 import mainproject.auth.filter.JwtVerificationFilter;
 import mainproject.auth.handler.MemberAccessDeniedHandler;
@@ -8,9 +9,10 @@ import mainproject.auth.handler.MemberAuthenticationFailureHandler;
 import mainproject.auth.handler.MemberAuthenticationSuccessHandler;
 import mainproject.auth.jwt.JwtTokenizer;
 import mainproject.auth.utils.CustomAuthorityUtils;
+import mainproject.auth.utils.XssProtectSupport;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,16 +30,19 @@ import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@Configuration
+//@Configuration
 @EnableWebSecurity(debug = true)
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 추가
 
+    private final ObjectMapper mapper;
+
     public SecurityConfiguration(JwtTokenizer jwtTokenizer,
-                                 CustomAuthorityUtils authorityUtils) {
+                                 CustomAuthorityUtils authorityUtils, ObjectMapper mapper) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
+        this.mapper = mapper;
     }
 
     @Bean
@@ -95,6 +100,17 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+    @Bean
+    public MappingJackson2HttpMessageConverter characterEscapeConverter() {
+        ObjectMapper objectMapper = mapper.copy();
+        objectMapper.getFactory().setCharacterEscapes(new XssProtectSupport());
+        return new MappingJackson2HttpMessageConverter(objectMapper);
+    }
+
+
+
+
 
     //Jwt 인증필터 등록
     public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
