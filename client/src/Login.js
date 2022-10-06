@@ -29,14 +29,13 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
         if (response.status === 200) {
           localStorage.setItem("localToken", response.headers.authorization);
           localStorage.setItem("email", username);
-          setIsLogin(!isLogin);
           setTokenEmail({
             token: response.headers.authorization,
             email: username,
             nickname: "server",
           });
+          setIsLogin(true);
           goHome();
-          // username,token 두개 저장해라
         }
       })
       .catch(function (error) {
