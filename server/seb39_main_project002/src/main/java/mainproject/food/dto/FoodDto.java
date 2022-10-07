@@ -29,7 +29,7 @@ public class FoodDto {
 
     private Date shelfLife; //유통기한
 
-    private String email; //?? 이메일 정보를 담을 객체
+//    private String email; //?? 이메일 정보를 담을 객체
 
     private LocalDateTime createdAt;
 

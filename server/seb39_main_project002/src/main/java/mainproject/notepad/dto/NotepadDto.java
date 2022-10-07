@@ -13,7 +13,7 @@ public class NotepadDto {
 
     private String contents;
 
-    private String email;
+//    private String email;
 
     private LocalDateTime createdAt;
 

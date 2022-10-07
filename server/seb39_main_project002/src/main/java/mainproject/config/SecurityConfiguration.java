@@ -71,13 +71,12 @@ public class SecurityConfiguration {
 
                                 .antMatchers(HttpMethod.POST, "/*/foods/**").hasRole("USER")
                                 .antMatchers(HttpMethod.PATCH, "/*/foods/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.GET, "/*/foods").hasRole("ADMIN")
-                                .antMatchers(HttpMethod.GET, "/*/foods/**").hasAnyRole("USER")// 잠시 어드민 제거
+                                .antMatchers(HttpMethod.GET, "/*/foods/**").hasAnyRole("USER")
                                 .antMatchers(HttpMethod.DELETE, "/*/foods/**").hasRole("USER")
 
                                 .antMatchers(HttpMethod.POST, "/*/notepad/**").hasRole("USER")
                                 .antMatchers(HttpMethod.DELETE, "/*/notepad/**").hasRole("USER")
-                                .antMatchers(HttpMethod.GET, "/*/notepad/**").hasAnyRole("USER")// 잠시 어드민 제거
+                                .antMatchers(HttpMethod.GET, "/*/notepad/**").hasAnyRole("USER")
                                 .anyRequest().permitAll()
                 );
         return http.build();
@@ -95,7 +94,6 @@ public class SecurityConfiguration {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(List.of(CorsConfiguration.ALL)); //cors 오류로 인해 추가
         configuration.addExposedHeader("Authorization");//클라이언트에 헤더 보여주기
-//        configuration.addAllowedHeader("Authorization"); //cors 오류로 인해 추가
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -107,9 +105,6 @@ public class SecurityConfiguration {
         objectMapper.getFactory().setCharacterEscapes(new XssProtectSupport());
         return new MappingJackson2HttpMessageConverter(objectMapper);
     }
-
-
-
 
 
     //Jwt 인증필터 등록

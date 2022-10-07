@@ -45,14 +45,14 @@ public class Member extends Auditable {
     @JsonIgnoreProperties({"member"}) // 순환참조
     private List<Notepad> notepads = new ArrayList<>();
 
-
-    public Member(String email) {
-        this.email = email;
-    }
-    public Member(String password, String email, String nickname) {
-        this.password = password;
-        this.email = email;
-        this.nickname = nickname;
-    }
+//
+//    public Member(String email) {
+//        this.email = email;
+//    }
+//    public Member(String password, String email, String nickname) {
+//        this.password = password;
+//        this.email = email;
+//        this.nickname = nickname;
+//    }
 
 }
