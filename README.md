@@ -1,5 +1,4 @@
-# My Todo App
-
+# Main_Project_002
 seb39_main_002 프로젝트입니다.
 
 ## 프로젝트 설명
@@ -23,6 +22,5 @@ seb39_main_002 프로젝트입니다.
 ## 사용 스택
 ![사용스택](https://user-images.githubusercontent.com/104144701/194479038-bca909fa-6805-477d-ad52-3ab6af148758.PNG)
 
-## Project Wiki
-
-(링크) 노션 링크 or 유튜브 링크로 연결하기
+## Project 배포
+https://002main.netlify.app/
