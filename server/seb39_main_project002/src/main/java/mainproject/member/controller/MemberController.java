@@ -46,9 +46,9 @@ public class MemberController {
 
     @PatchMapping("/{email}") //회원정보 수정
     public ResponseEntity patchMember(
-            @PathVariable("email") String email,
+            @PathVariable("email") String email, Authentication authentication,
             @Valid @RequestBody MemberDto.Patch requestBody) {
-        requestBody.SetEmail(email);
+        requestBody.SetEmail(authentication.getName());
 
         Member member =
                 memberService.updateMember(mapper.memberPatchToMember(requestBody));
@@ -71,7 +71,7 @@ public class MemberController {
 
     @DeleteMapping("/{email}") //회원 삭제
     public ResponseEntity deleteMember(
-            @PathVariable("email") @Positive String email, Authentication authentication) {
+            @PathVariable("email") String email, Authentication authentication) {
         memberService.deleteMember(authentication.getName());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

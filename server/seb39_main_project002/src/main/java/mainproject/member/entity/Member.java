@@ -24,9 +24,6 @@ public class Member extends Auditable {
     @Column(name = "email",nullable = false, updatable = false)
     private String email;
 
-    @Column//(nullable = false, updatable = false, unique = true)
-    private String id;
-
     // (1) 추가
     @Column(length = 100, nullable = false)
     private String password;
@@ -54,8 +51,7 @@ public class Member extends Auditable {
     public Member(String email) {
         this.email = email;
     }
-    public Member(String id, String password, String email, String nickname) {
-        this.id = id;
+    public Member(String password, String email, String nickname) {
         this.password = password;
         this.email = email;
         this.nickname = nickname;

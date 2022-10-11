@@ -2,16 +2,13 @@ package mainproject.food.service;
 
 import mainproject.exception.BusinessLogicException;
 import mainproject.exception.ExceptionCode;
-import mainproject.food.dto.FoodDto;
 import mainproject.food.entity.Food;
 
-import mainproject.food.repositiry.FoodRepository;
+import mainproject.food.repository.FoodRepository;
 import mainproject.member.entity.Member;
 import mainproject.member.repository.MemberRepository;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

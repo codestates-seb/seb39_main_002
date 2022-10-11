@@ -2,7 +2,6 @@ package mainproject.notepad.service;
 
 import mainproject.exception.BusinessLogicException;
 import mainproject.exception.ExceptionCode;
-import mainproject.food.repositiry.FoodRepository;
 import mainproject.member.entity.Member;
 import mainproject.member.repository.MemberRepository;
 import mainproject.notepad.entity.Notepad;

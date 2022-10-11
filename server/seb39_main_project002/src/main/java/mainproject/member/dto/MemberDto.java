@@ -13,7 +13,6 @@ public class MemberDto {
     @AllArgsConstructor // TODO 테스트를 위해 추가됨
     public static class Post {
 
-        private String id;
         @NotBlank
         private String password;
         @NotBlank
@@ -29,8 +28,6 @@ public class MemberDto {
     @AllArgsConstructor
     public static class Patch {
 
-
-        private String id;
 
         @NotSpace(message = "닉네임은 공백이 아니어야 합니다")
         private String nickname;
@@ -51,7 +48,6 @@ public class MemberDto {
     @AllArgsConstructor
     @Getter
     public static class Response {
-        private String id;
         private String email;
         private String nickname;
 //            private String password;
