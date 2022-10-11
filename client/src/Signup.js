@@ -17,6 +17,9 @@ function Signup() {
       })
       .then(function (response) {
         if (response.status === 201) {
+          alert(
+            `congratulation!  ${nickname}\nNow you can Log in to Refrigerator`
+          );
           goLogin();
         }
       })
@@ -43,9 +46,6 @@ function Signup() {
       alert(Error.join("\n\n"));
     }
     if (!Error.length) {
-      alert(
-        `congratulation!  ${memberName}\nNow you can Log in to Refrigerator`
-      );
       postForm(memberPassword, memberEmail, memberName);
     }
   };

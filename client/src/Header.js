@@ -4,7 +4,7 @@ import { useState } from "react";
 import Memo from "./Memo";
 import logo from "./img/logo.png";
 
-function Header({ isLogin, setIsLogin, loginHandler, setTokenEmail }) {
+function Header({ loginHandler, setTokenEmail }) {
   return (
     <>
       <Main>
@@ -18,25 +18,21 @@ function Header({ isLogin, setIsLogin, loginHandler, setTokenEmail }) {
           </div>
           <div className="header-right">
             <span className="modal">
-              {isLogin ? (
-                <Memo
-                  isLogin={isLogin}
-                  setTokenEmail={setTokenEmail}
-                  setIsLogin={setIsLogin}
-                />
+              {localStorage.getItem("localToken") ? (
+                <Memo setTokenEmail={setTokenEmail} />
               ) : (
                 ""
               )}
             </span>
             <span>
-              {isLogin ? (
+              {localStorage.getItem("localToken") ? (
                 <Link to="/mypage">내정보</Link>
               ) : (
                 <Link to="/signup">회원가입</Link>
               )}
             </span>
             <span>
-              {isLogin ? (
+              {localStorage.getItem("localToken") ? (
                 <Link to="/" onClick={loginHandler}>
                   로그아웃
                 </Link>

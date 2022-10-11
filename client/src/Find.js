@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 function Find() {
   const [nickname, setNickname] = useState("");
@@ -9,6 +9,7 @@ function Find() {
   const [rightEmail, setRightEmail] = useState("");
   function findHandler(e) {
     //post를 위한 axios까지는 해두고 넘어가기
+    alert("기능미구현");
     if (e.target.value === "ID") {
       //유저 이름과 이메일이 일치하는 ID가 있는 경우
       //ID 를 이메일로 보내주기

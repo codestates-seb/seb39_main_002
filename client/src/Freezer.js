@@ -8,7 +8,6 @@ function Freezer({ data, setData, tokenEmail }) {
   function deleteList(id) {
     axios({
       method: "delete",
-      // url: "http://localhost:3001/data",
       url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
       headers: {
         Authorization: tokenEmail.token,

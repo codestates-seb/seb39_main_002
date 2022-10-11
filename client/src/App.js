@@ -19,7 +19,6 @@ import Recipedetail from "./Recipedetail";
 
 function App() {
   const [data, setData] = useState(null);
-  const [isLogin, setIsLogin] = useState(false);
   const [tokenEmail, setTokenEmail] = useState({
     token: "",
     email: "",
@@ -38,35 +37,18 @@ function App() {
   const [canMake, setCanMake] = useState(null);
 
   useEffect(() => {
-    if (localStorage.getItem("localToken")) {
-      axios({
-        method: "get",
-        url: `https://factory-kms.com/v1/members/${localStorage.getItem(
-          "email"
-        )}`,
-        headers: {
-          Authorization: localStorage.getItem("localToken"),
-        },
-      }).then(function (response) {
-        setTokenEmail({
-          token: localStorage.getItem("localToken"),
-          email: response.data.data.email,
-          nickname: response.data.data.nickname,
-        });
-      });
-      setIsLogin(true);
-      axios({
-        method: "get",
-        url: `https://factory-kms.com/v1/foods/${localStorage.getItem(
-          "email"
-        )}`,
-        headers: {
-          Authorization: localStorage.getItem("localToken"),
-        },
-      }).then(function (response) {
-        setData(response.data.data);
-      });
+    if (!localStorage.getItem("localToken")) {
+      return;
     }
+    axios({
+      method: "get",
+      url: `https://factory-kms.com/v1/foods/${localStorage.getItem("email")}`,
+      headers: {
+        Authorization: localStorage.getItem("localToken"),
+      },
+    }).then(function (response) {
+      setData(response.data.data);
+    });
   }, [changed]);
 
   useEffect(() => {
@@ -98,7 +80,7 @@ function App() {
         });
       });
     }
-  }, [isLogin]);
+  }, []);
   useEffect(() => {
     axios({
       method: "get",
@@ -136,30 +118,22 @@ function App() {
   }, [recipe, data]);
 
   function loginHandler() {
-    if (isLogin) {
+    if (localStorage.getItem("localToken")) {
       localStorage.removeItem("localToken");
       localStorage.removeItem("email");
-      setIsLogin(false);
     } else {
-      setIsLogin(true);
     }
   }
 
   return (
     <BrowserRouter>
-      <Header
-        isLogin={isLogin}
-        setIsLogin={setIsLogin}
-        setTokenEmail={setTokenEmail}
-        loginHandler={loginHandler}
-      />
+      <Header setTokenEmail={setTokenEmail} loginHandler={loginHandler} />
       <div>
         <Routes>
           <Route
             path="/"
             element={
               <MainSum
-                isLogin={isLogin}
                 tokenEmail={tokenEmail}
                 recipe={recipe}
                 canMake={canMake}
@@ -175,13 +149,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route
             path="/login"
-            element={
-              <Login
-                isLogin={isLogin}
-                setIsLogin={setIsLogin}
-                setTokenEmail={setTokenEmail}
-              />
-            }
+            element={<Login setTokenEmail={setTokenEmail} />}
           />
           <Route path="/find" element={<Find />} />
           <Route

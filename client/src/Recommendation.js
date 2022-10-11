@@ -1,11 +1,8 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 function Recommendation({ tokenEmail, canMake }) {
-  const [data, setData] = useState(canMake);
   return (
-    // Main 대신 빈 냉장고 component를 넣어줘서 진행할 수 있게 해줘야 한다(생긴 후)
     <Main>
       <div className="container">
         <div className="title">
@@ -15,11 +12,10 @@ function Recommendation({ tokenEmail, canMake }) {
           </h1>
         </div>
         <div className="lists">
-          {/* 아래 내용물들은 레시피 데이터를 사용할 수 있을 때 mapping해서 만든 것을 가정 */}
-          {data.map((el) => (
+          {canMake.map((el) => (
             <div className="list">
               <Link to={`/recipedetail/${el[0]}`}>
-                <img src={el[2]}></img>
+                <img src={el[2]} alt="main_img"></img>
               </Link>
             </div>
           ))}

@@ -5,11 +5,8 @@ import colder from "./img/냉장실.jpeg";
 import { Link } from "react-router-dom";
 import Carousel from "./components/Carousel";
 import { FaArrowRight } from "react-icons/fa";
-import { useState } from "react";
 
-const Loginmain = ({ tokenEmail, recipe, canMake }) => {
-  const data = recipe.map((el, index) => [index, el.RCP_NM]);
-  const [options, setOptions] = useState(data);
+const Loginmain = ({ tokenEmail, canMake }) => {
   return (
     <Container>
       <Div>

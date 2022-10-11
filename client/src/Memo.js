@@ -2,22 +2,22 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-function Memo( { isLogin, setIsLogin, setTokenEmail } ) {  
-  
+function Memo() {
   const [isOpen, setIsOpen] = useState(false);
-  const [memos, setMemos] = useState([{
-    "data": "메모1",
-    "id": 1
-  }]); //여기 데이터는 헤더나 app에서 받아서 props로 넘겨주기
-  const [change, setChange] = useState(true)
+  const [memos, setMemos] = useState([
+    {
+      data: "메모1",
+      id: 1,
+    },
+  ]);
+  const [change, setChange] = useState(true);
 
   const openModalHandler = () => {
     setIsOpen(!isOpen);
   };
-  
-  
+
   useEffect(() => {
-    if(isLogin){
+    if (localStorage.getItem("localToken")) {
       axios({
         method: "get",
         url: `https://factory-kms.com/v1/notepad/${localStorage.getItem(
@@ -25,15 +25,12 @@ function Memo( { isLogin, setIsLogin, setTokenEmail } ) {
         )}`,
         headers: {
           Authorization: localStorage.getItem("localToken"),
-        }
-        // url: "ec2-3-36-5-78.ap-northeast-2.compute.amazonaws.com:8080",
+        },
       }).then(function (response) {
         setMemos(response.data.data);
-        // console.log(response.data.data);
       });
     }
   }, [change]);
-  
 
   function enterKeyHandler(e) {
     if (e.key === "Enter") {
@@ -44,40 +41,30 @@ function Memo( { isLogin, setIsLogin, setTokenEmail } ) {
         )}`,
         headers: {
           Authorization: localStorage.getItem("localToken"),
-        },        
-        data: {
-          contents: e.target.value          
         },
-      })
-      .then(function (response) {        
-          setChange(!change);        
+        data: {
+          contents: e.target.value,
+        },
+      }).then(function (response) {
+        setChange(!change);
       });
-
-      // setMemos([...memos, { data: e.target.value, id: id + 1 }]);
-      // setId(id + 1);
       e.target.value = "";
     }
   }
 
   function memoDelete(e) {
-    //  console.log(e.target.id)
     axios({
-
       method: "delete",
-      url: `https://factory-kms.com/v1/notepad/${localStorage.getItem(
-        "email"
-      )}/` + e.target.id,
+      url:
+        `https://factory-kms.com/v1/notepad/${localStorage.getItem("email")}/` +
+        e.target.id,
       headers: {
         Authorization: localStorage.getItem("localToken"),
-      }  
-      
-    })
-    .then(function (response) {        
-        setChange(!change);        
-    });    
+      },
+    }).then(function (response) {
+      setChange(!change);
+    });
   }
-
-
 
   return (
     <>
@@ -135,7 +122,6 @@ export const Main = styled.span`
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(1.5px);
     -webkit-backdrop-filter: blur(1.5px);
-    /* border-radius: 10px; */
     border: 1px solid rgba(255, 255, 255, 0.18);
   }
   .modalview {

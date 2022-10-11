@@ -42,9 +42,6 @@ const Main = ({ recipe }) => {
     setInputValue(event);
     setOptions(data.filter((el) => el[1].indexOf(event) !== -1));
   };
-  const handleDeleteButtonClick = () => {
-    setInputValue("");
-  };
 
   return (
     <Div>
@@ -78,7 +75,6 @@ const Main = ({ recipe }) => {
 export const DropDown = ({ options, handleComboBox }) => {
   return (
     <DropDownContainer>
-      {/* TODO : input 값에 맞는 autocomplete 선택 옵션이 보여지는 역할을 합니다. */}
       {options.map((el) => (
         <li key={el[0]}>
           <Link to={`/recipedetail/${el[0]}`}>{el[1]}</Link>

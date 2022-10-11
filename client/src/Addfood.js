@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-function Addfood({ data, setData, tokenEmail, setChanged, changed }) {
+function Addfood({ tokenEmail, setChanged, changed }) {
   const [title, setTitle] = useState("");
   const [tag, setTag] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -88,61 +88,61 @@ function Addfood({ data, setData, tokenEmail, setChanged, changed }) {
           </div>
           <div className="tagBox">
             <div
-              className={"tag" + " " + (tag === "육류" ? "tagNow" : "")}
+              className={"tag" + (tag === "육류" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               육류
             </div>
             <div
-              className={"tag" + " " + (tag === "해산물" ? "tagNow" : "")}
+              className={"tag" + (tag === "해산물" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               해산물
             </div>
             <div
-              className={"tag" + " " + (tag === "채소/야채" ? "tagNow" : "")}
+              className={"tag" + (tag === "채소/야채" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               채소/야채
             </div>
             <div
-              className={"tag" + " " + (tag === "과일" ? "tagNow" : "")}
+              className={"tag" + (tag === "과일" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               과일
             </div>
             <div
-              className={"tag" + " " + (tag === "유제품" ? "tagNow" : "")}
+              className={"tag" + (tag === "유제품" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               유제품
             </div>
             <div
-              className={"tag" + " " + (tag === "음료" ? "tagNow" : "")}
+              className={"tag" + (tag === "음료" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               음료
             </div>
             <div
-              className={"tag" + " " + (tag === "가공품" ? "tagNow" : "")}
+              className={"tag" + (tag === "가공품" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               가공품
             </div>
             <div
-              className={"tag" + " " + (tag === "완제품" ? "tagNow" : "")}
+              className={"tag" + (tag === "완제품" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               완제품
             </div>
             <div
-              className={"tag" + " " + (tag === "조미료/양념" ? "tagNow" : "")}
+              className={"tag" + (tag === "조미료/양념" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               조미료/양념
             </div>
             <div
-              className={"tag" + " " + (tag === "기타" ? "tagNow" : "")}
+              className={"tag" + (tag === "기타" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               기타
@@ -164,14 +164,9 @@ function Addfood({ data, setData, tokenEmail, setChanged, changed }) {
               onChange={dateHandler}
             ></input>
           </div>
-          {/* <div className="data">
-            <h2>소비기한</h2>
-            <input></input>
-          </div> */}
         </div>
         <div className="bottomLink">
           <Link
-            // to="/freezer"
             to="/refrigerator"
             className="bottomButton"
             value="freezer"
@@ -180,7 +175,6 @@ function Addfood({ data, setData, tokenEmail, setChanged, changed }) {
             <div>냉동실에 추가하기 ╋</div>
           </Link>
           <Link
-            // to="/colder"
             to="/refrigerator"
             className="bottomButton"
             value="colder"
@@ -291,8 +285,6 @@ export const Main = styled.div`
     justify-content: center;
     width: 28vw;
     min-width: 500px;
-    /* display: flex;
-    flex-direction: column; */
   }
   .data {
     display: flex;

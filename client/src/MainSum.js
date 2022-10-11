@@ -1,10 +1,9 @@
-import styled from "styled-components";
 import Loginmain from "./Loginmain";
 import Main from "./Main";
-const MainSum = ({ isLogin, tokenEmail, recipe, canMake }) => {
+const MainSum = ({ tokenEmail, recipe, canMake }) => {
   return (
     <>
-      {isLogin ? (
+      {localStorage.getItem("localToken") ? (
         <Loginmain tokenEmail={tokenEmail} recipe={recipe} canMake={canMake} />
       ) : (
         <Main recipe={recipe} />

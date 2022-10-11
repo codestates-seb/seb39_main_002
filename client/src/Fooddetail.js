@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 
-function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
+function Fooddetail({ data, tokenEmail, setChanged, changed }) {
   const { id } = useParams();
-  const [here, SetHere] = useState(
+  // const here = data.filter((el) => el.id === Number(id) //하단 setHere 처리하기
+  const [here, setHere] = useState(
     ...data.filter((el) => el.id === Number(id))
   );
   const [title, setTitle] = useState(here["foodName"]);
@@ -26,8 +27,6 @@ function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
   }
   function dataHandler(e) {
     if (e.target.textContent === "냉동실로 옮기기") {
-      //냉장실 id 삭제
-      //냉동실에 post
       axios({
         method: "delete",
         url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
@@ -55,8 +54,6 @@ function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
       });
     }
     if (e.target.textContent === "냉장실로 옮기기") {
-      //냉동실(현재id) 삭제
-      //냉장실 추가
       axios({
         method: "delete",
         url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
@@ -84,7 +81,6 @@ function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
       });
     }
     if (e.target.textContent === "수정하기") {
-      //현재 id patch로 수정
       axios({
         method: "patch",
         url: `https://factory-kms.com/v1/foods/${tokenEmail.email}/${id}`,
@@ -131,61 +127,61 @@ function Fooddetail({ data, setData, tokenEmail, setChanged, changed }) {
           </div>
           <div className="tagBox">
             <div
-              className={"tag" + " " + (tag === "육류" ? "tagNow" : "")}
+              className={"tag" + (tag === "육류" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               육류
             </div>
             <div
-              className={"tag" + " " + (tag === "해산물" ? "tagNow" : "")}
+              className={"tag" + (tag === "해산물" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               해산물
             </div>
             <div
-              className={"tag" + " " + (tag === "채소/야채" ? "tagNow" : "")}
+              className={"tag" + (tag === "채소/야채" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               채소/야채
             </div>
             <div
-              className={"tag" + " " + (tag === "과일" ? "tagNow" : "")}
+              className={"tag" + (tag === "과일" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               과일
             </div>
             <div
-              className={"tag" + " " + (tag === "유제품" ? "tagNow" : "")}
+              className={"tag" + (tag === "유제품" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               유제품
             </div>
             <div
-              className={"tag" + " " + (tag === "음료" ? "tagNow" : "")}
+              className={"tag" + (tag === "음료" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               음료
             </div>
             <div
-              className={"tag" + " " + (tag === "가공품" ? "tagNow" : "")}
+              className={"tag" + (tag === "가공품" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               가공품
             </div>
             <div
-              className={"tag" + " " + (tag === "완제품" ? "tagNow" : "")}
+              className={"tag" + (tag === "완제품" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               완제품
             </div>
             <div
-              className={"tag" + " " + (tag === "조미료/양념" ? "tagNow" : "")}
+              className={"tag" + (tag === "조미료/양념" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               조미료/양념
             </div>
             <div
-              className={"tag" + " " + (tag === "기타" ? "tagNow" : "")}
+              className={"tag" + (tag === "기타" ? " tagNow" : "")}
               onClick={tagHandler}
             >
               기타
@@ -335,8 +331,6 @@ export const Main = styled.div`
     justify-content: center;
     width: 28vw;
     min-width: 500px;
-    /* display: flex;
-  flex-direction: column; */
   }
   .data {
     display: flex;

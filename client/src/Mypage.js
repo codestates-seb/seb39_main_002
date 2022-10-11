@@ -2,7 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 function Mypage({ tokenEmail, setChanged, changed }) {
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
-  function modifyProfile(nickname, memberEmail, memberPassword) {
+  function modifyProfile(nickname) {
     axios({
       method: "patch",
       url: `https://factory-kms.com/v1/members/${tokenEmail.email}`,
@@ -45,7 +45,6 @@ function Mypage({ tokenEmail, setChanged, changed }) {
       alert(Error.join("\n\n"));
     }
     if (!Error.length) {
-      // alert(`${nickname}` + "`s profile changed");
       modifyProfile(nickname, memberEmail, memberPassword);
     }
   }

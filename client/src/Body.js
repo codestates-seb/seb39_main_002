@@ -1,5 +1,4 @@
 import styled from "styled-components";
-// import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Body() {
@@ -56,7 +55,6 @@ export const Main = styled.div`
   overflow: hidden;
 
   .body {
-    /* background-color: rgba(255, 50, 50, 0.3); */
     border-left: 1px solid #d6d9dc;
     width: 60vw;
   }

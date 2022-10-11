@@ -2,9 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
-// import { Link } from "react-router-dom";
 
-function Login({ isLogin, setIsLogin, setTokenEmail }) {
+function Login({ setTokenEmail }) {
   const [isChecked, setisChecked] = useState(false);
   const idRegEx = /^[A-Za-z]{1}[A-Za-z0-9_-]{3,11}$/;
   const passwordRegEx = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
@@ -34,7 +33,6 @@ function Login({ isLogin, setIsLogin, setTokenEmail }) {
             email: username,
             nickname: "server",
           });
-          setIsLogin(true);
           goHome();
         }
       })
@@ -270,9 +268,7 @@ export const Main = styled.div`
     span {
       margin-left: 3px;
       ${(props) =>
-        props.check
-          ? "vertical-align: -1.5px;"
-          : "vertical-align: 2.5px;"}/* vertical-align: 3px; */
+        props.check ? "vertical-align: -1.5px;" : "vertical-align: 2.5px;"}
     }
     button {
       width: 21px;
